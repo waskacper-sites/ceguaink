@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEGUA ink Tattoo Studio Tarnów | Fineline, Minimalizm & Autorski Tatuaż</title>
+    <meta name="description" content="Studio tatuażu CEGUA ink w Tarnowie (Klikowska 186). Cennik: tatuaże od 300 zł, darmowa konsultacja. Fineline, botanika, mandala i mikrorealizm. Ocena 5.0 w Google.">
+    <link rel="icon" type="image/png" href="logo.png">
+
+    <!-- Google Fonts: Montserrat (zwarte, nowoczesne, geometryczne) + Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        beige: {
+                            50: '#FAF8F5',
+                            100: '#F5EFE9',
+                            200: '#EBE2D7',
+                            300: '#D9C8B5',
+                            400: '#BAAA98',
+                            500: '#A3907C',
+                            600: '#8A7663',
+                            700: '#6E5E4E',
+                            800: '#52463A',
+                            900: '#382F27',
+                        },
+                        studio: {
+                            black: '#0F0F12',
+                            card: '#FFFFFF',
+                            surface: '#FDFBF9'
+                        }
+                    },
+                    fontFamily: {
+                        logo: ['Montserrat', 'Plus Jakarta Sans', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- FontAwesome 6 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-[#FCFBF9] text-[#0F0F12] relative antialiased selection:bg-[#BAAA98] selection:text-white min-h-screen">
+
+    <!-- Canvas z subtelną mgłą / dymem w tle -->
+    <canvas id="smoke-canvas"></canvas>
+
+    <!-- BANER DEMONSTRACYJNY -->
+    <div class="bg-[#0F0F12] text-white py-3 px-4 sm:px-6 text-center text-xs sm:text-base font-medium border-b border-neutral-800 relative z-50 shadow-md flex items-center justify-center gap-3 flex-wrap">
+        <span class="inline-flex items-center gap-1.5 bg-[#BAAA98]/20 px-3 py-1 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider text-[#BAAA98] border border-[#BAAA98]/30">
+            <i class="fa-solid fa-wand-magic-sparkles text-xs"></i> Wersja Demo
+        </span>
+        <span class="text-neutral-200">Spersonalizowany projekt strony przygotowany dla <strong>CEGUA ink Tattoo Studio</strong> w Tarnowie.</span>
+        <button type="button" onclick="openContactOwnerModal()" class="underline text-[#BAAA98] hover:text-white font-bold transition cursor-pointer">Chcesz taką stronę? Skontaktuj się z nami! →</button>
+    </div>
+
+    <!-- UNIWERSALNY MODAL POWIADOMIEŃ / KONTAKT W SPRAWIE STRONY -->
+    <div id="custom-modal-backdrop" class="fixed inset-0 z-[120] hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4 transition-all duration-300 opacity-0">
+        <div id="custom-modal-card" class="bg-white border border-[#E8E2DA] p-8 sm:p-12 rounded-3xl max-w-lg w-full text-center shadow-2xl relative transform transition-all duration-300 scale-95 opacity-0">
+            <button id="custom-modal-close-btn" type="button" aria-label="Zamknij" class="absolute top-5 right-5 w-10 h-10 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-500 hover:text-neutral-900 flex items-center justify-center text-base transition cursor-pointer">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="custom-modal-icon-container" class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5 text-2xl shadow-md"></div>
+            <h3 id="custom-modal-title" class="font-logo text-2xl sm:text-3xl text-neutral-900 mb-4 font-bold"></h3>
+            <div id="custom-modal-body" class="text-base sm:text-lg text-neutral-600 leading-relaxed mb-8 font-normal"></div>
+            <div id="custom-modal-actions" class="flex flex-col-reverse sm:flex-row gap-4 justify-center">
+                <button id="custom-modal-cancel-btn" type="button" class="hidden w-full sm:w-auto px-7 py-3.5 rounded-xl border border-neutral-300 text-neutral-700 hover:bg-neutral-100 text-sm uppercase tracking-widest transition cursor-pointer font-bold">Anuluj</button>
+                <button id="custom-modal-confirm-btn" type="button" class="bg-neutral-900 hover:bg-neutral-800 text-white font-bold px-8 py-3.5 rounded-xl text-sm uppercase tracking-widest transition cursor-pointer shadow-md w-full sm:w-auto">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+         GŁÓWNY WIDOK STRONY INTERNETOWEJ DLA KLIENTÓW
+         ========================================================================== -->
+    <div id="main-content-view" class="flex flex-col min-h-screen">
+        
+        <!-- GÓRNY PASEK INFORMACYJNY -->
+        <div class="relative z-20 bg-[#0F0F12] text-white text-xs sm:text-sm py-2 px-4 border-b border-neutral-800">
+            <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+                <div class="flex items-center gap-4">
+                    <span class="inline-flex items-center text-amber-400 font-semibold">
+                        <i data-lucide="star" class="w-3.5 h-3.5 fill-current mr-1"></i>
+                        5,0 w Google
+                    </span>
+                    <span class="hidden md:inline text-neutral-400">•</span>
+                    <span class="hidden md:inline text-neutral-300">Tarnów, ul. Klikowska 186</span>
+                </div>
+                <div class="flex items-center gap-5 text-neutral-300">
+                    <span class="hidden sm:inline">Pon-Pt: 10:00 - 17:00 | Sob: 10:00 - 15:00</span>
+                    <a href="tel:881400555" class="text-white hover:text-[#BAAA98] font-bold flex items-center gap-1 transition">
+                        <i data-lucide="phone" class="w-3.5 h-3.5 text-[#BAAA98]"></i>
+                        881 400 555
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- NAWIGACJA GŁÓWNA -->
+        <header class="sticky top-0 z-40 bg-[#FCFBF9]/90 backdrop-blur-md border-b border-[#E8E2DA] transition-all">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 sm:h-24 flex items-center justify-between">
+                
+                <!-- Logo -->
+                <a href="#" class="flex items-center group py-1" title="CEGUA ink Tattoo Studio">
+                    <img src="logo.png" alt="CEGUA ink tattoo studio" class="h-14 sm:h-16 md:h-20 w-auto object-contain mix-blend-multiply transition-transform duration-300 group-hover:scale-105">
+                </a>
+
+                <!-- Menu Desktop -->
+                <nav class="hidden lg:flex items-center space-x-8 text-sm font-bold text-neutral-700">
+                    <a href="#o-nas" class="hover:text-[#0F0F12] hover:underline underline-offset-8 decoration-[#BAAA98] decoration-2 transition">O studiu</a>
+                    <a href="#style" class="hover:text-[#0F0F12] hover:underline underline-offset-8 decoration-[#BAAA98] decoration-2 transition">Style</a>
+                    <a href="#portfolio" class="hover:text-[#0F0F12] hover:underline underline-offset-8 decoration-[#BAAA98] decoration-2 transition">Portfolio</a>
+                    <a href="#cennik" class="hover:text-[#0F0F12] hover:underline underline-offset-8 decoration-[#BAAA98] decoration-2 transition text-[#6E5E4E]">Cennik</a>
+                    <a href="#opinie" class="hover:text-[#0F0F12] hover:underline underline-offset-8 decoration-[#BAAA98] decoration-2 transition">Opinie</a>
+                    <a href="#faq" class="hover:text-[#0F0F12] hover:underline underline-offset-8 decoration-[#BAAA98] decoration-2 transition">FAQ</a>
+                </nav>
+
+                <!-- Akcje -->
+                <div class="hidden sm:flex items-center gap-3">
+                    <a href="https://www.instagram.com/ceguaink" target="_blank" rel="noopener noreferrer" 
+                       class="w-12 h-12 rounded-2xl border border-[#E8E2DA] bg-white hover:bg-[#F5EFE9] text-neutral-800 hover:text-black flex items-center justify-center transition shadow-xs" title="Instagram @ceguaink">
+                        <i class="fa-brands fa-instagram text-2xl text-neutral-800 hover:text-black"></i>
+                    </a>
+                    <a href="#rezerwacja" class="btn-primary-dark font-logo px-6 py-3 rounded-xl text-sm font-bold uppercase tracking-wider inline-flex items-center gap-2">
+                        <span>Umów termin</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <!-- Hamburger Mobile -->
+                <button id="mobile-menu-btn" class="lg:hidden p-2.5 rounded-xl border border-[#E8E2DA] bg-white text-neutral-800" aria-label="Menu">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <!-- Menu Mobile Drawer -->
+            <div id="mobile-menu" class="hidden lg:hidden flex-col bg-white border-b border-[#E8E2DA] px-6 py-6 space-y-4 shadow-xl">
+                <a href="#o-nas" class="text-base font-bold text-neutral-900 py-2 border-b border-neutral-100">O studiu</a>
+                <a href="#style" class="text-base font-bold text-neutral-900 py-2 border-b border-neutral-100">Style tatuażu</a>
+                <a href="#portfolio" class="text-base font-bold text-neutral-900 py-2 border-b border-neutral-100">Portfolio</a>
+                <a href="#cennik" class="text-base font-bold text-[#6E5E4E] py-2 border-b border-neutral-100 flex items-center justify-between">
+                    <span>Cennik & Zadatek</span>
+                    <span class="text-xs bg-[#F5EFE9] px-2 py-0.5 rounded font-bold">od 300 zł</span>
+                </a>
+                <a href="#opinie" class="text-base font-bold text-neutral-900 py-2 border-b border-neutral-100">Opinie z Google</a>
+                <a href="#faq" class="text-base font-bold text-neutral-900 py-2 border-b border-neutral-100">Pytania i odpowiedzi</a>
+                <div class="pt-4 flex flex-col gap-3">
+                    <a href="#rezerwacja" class="btn-primary-dark w-full text-center py-3.5 rounded-xl font-bold uppercase text-sm tracking-wider">
+                        Umów termin online
+                    </a>
+                    <a href="tel:881400555" class="w-full text-center py-3 border border-[#E8E2DA] rounded-xl font-bold text-sm text-neutral-800 flex items-center justify-center gap-2">
+                        <i data-lucide="phone" class="w-4 h-4 text-[#BAAA98]"></i> Zadzwoń: 881 400 555
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- TREŚĆ GŁÓWNA STRONY -->
+        <main class="relative z-10 flex-grow">
+
+            <!-- ==========================================================================
+                 SEKCJA HERO (PIERWSZA STREFA STRONY)
+                 ========================================================================== -->
+            <section id="hero" class="relative min-h-[85vh] lg:min-h-[92vh] flex flex-col justify-center pt-16 pb-24 sm:pt-28 sm:pb-36 lg:pt-36 lg:pb-44 overflow-hidden bg-gradient-hero border-b border-[#E8E2DA]">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full my-auto">
+                    
+                    <div class="max-w-5xl mx-auto text-center">
+                        
+                        <!-- Badge -->
+                        <div class="inline-flex items-center gap-3 px-5 py-2.5 rounded-full badge-beige text-xs sm:text-sm font-bold tracking-widest uppercase mb-10 shadow-sm border border-[#E8E2DA] reveal-on-scroll">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span>Autorskie Studio Tatuażu • Tarnów</span>
+                        </div>
+
+                        <!-- Główny Nagłówek -->
+                        <h1 class="reveal-on-scroll reveal-delay-1 mb-10">
+                            <span class="block text-xs sm:text-base uppercase tracking-[0.3em] font-extrabold text-[#6E5E4E] mb-4">
+                                SZTUKA SUBTELNEJ I CZYSTEJ LINII
+                            </span>
+                            <span class="font-logo text-6xl sm:text-8xl md:text-9xl lg:text-[9.5rem] font-black text-[#0F0F12] tracking-tighter leading-none block">
+                                ceguaink
+                            </span>
+                            <span class="font-logo text-2xl sm:text-5xl lg:text-6xl font-black text-neutral-400 tracking-tight block mt-3 sm:mt-5">
+                                TATTOO STUDIO
+                            </span>
+                        </h1>
+
+                        <!-- Opis -->
+                        <p class="text-lg sm:text-2xl text-neutral-600 max-w-3xl mx-auto font-normal leading-relaxed mb-12 sm:mb-14 reveal-on-scroll reveal-delay-2">
+                            Przestrzeń autorskiego tatuażu w Tarnowie prowadzona przez <strong class="text-neutral-900 font-bold">Joannę</strong>. 
+                            Precyzyjny fineline, delikatne motywy botaniczne, geometria oraz projekty tworzone z pasją i chirurgiczną starannością.
+                        </p>
+
+                        <!-- Przyciski akcji -->
+                        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 reveal-on-scroll reveal-delay-3">
+                            <a href="#rezerwacja" class="btn-primary-dark w-full sm:w-auto px-10 py-5 rounded-2xl font-logo text-base sm:text-lg uppercase tracking-wider font-extrabold flex items-center justify-center gap-3 shadow-lg hover:shadow-2xl transition-all duration-300">
+                                <span>Zarezerwuj termin wizyty</span>
+                                <i data-lucide="calendar" class="w-5 h-5 text-[#BAAA98]"></i>
+                            </a>
+                            <a href="#cennik" class="w-full sm:w-auto px-9 py-5 rounded-2xl bg-white border-2 border-[#E8E2DA] hover:border-[#BAAA98] text-[#0F0F12] font-bold text-base sm:text-lg flex items-center justify-center gap-2 transition hover:shadow-md">
+                                <span>Zobacz oficjalny cennik</span>
+                                <i data-lucide="tag" class="w-5 h-5 text-[#BAAA98]"></i>
+                            </a>
+                        </div>
+
+                        <!-- Pasek zaufania (Trust Metrics) -->
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 mt-10 sm:mt-14 pt-8 sm:pt-10 border-t border-[#E8E2DA]/80 reveal-scale reveal-delay-4">
+                            <div class="p-5 sm:p-7 rounded-3xl bg-white/80 backdrop-blur-sm border border-[#E8E2DA] flex flex-col justify-center items-center text-center shadow-sm hover:shadow-md transition">
+                                <div class="font-logo text-3xl sm:text-5xl font-black text-[#0F0F12]">5,0 ★</div>
+                                <div class="text-xs sm:text-sm font-semibold text-neutral-500 mt-2">Opinie z Google</div>
+                            </div>
+                            <div class="p-5 sm:p-7 rounded-3xl bg-white/80 backdrop-blur-sm border border-[#E8E2DA] flex flex-col justify-center items-center text-center shadow-sm hover:shadow-md transition">
+                                <div class="font-logo text-3xl sm:text-5xl font-black text-[#0F0F12]">od 300 zł</div>
+                                <div class="text-xs sm:text-sm font-semibold text-neutral-500 mt-2">Jasny, stały cennik</div>
+                            </div>
+                            <div class="p-5 sm:p-7 rounded-3xl bg-white/80 backdrop-blur-sm border border-[#E8E2DA] flex flex-col justify-center items-center text-center shadow-sm hover:shadow-md transition">
+                                <div class="font-logo text-3xl sm:text-5xl font-black text-[#0F0F12]">0 PLN</div>
+                                <div class="text-xs sm:text-sm font-semibold text-neutral-500 mt-2">Darmowa konsultacja</div>
+                            </div>
+                            <div class="p-5 sm:p-7 rounded-3xl bg-white/80 backdrop-blur-sm border border-[#E8E2DA] flex flex-col justify-center items-center text-center shadow-sm hover:shadow-md transition">
+                                <div class="font-logo text-3xl sm:text-5xl font-black text-[#0F0F12]">Tarnów</div>
+                                <div class="text-xs sm:text-sm font-semibold text-neutral-500 mt-2">ul. Klikowska 186</div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ==========================================================================
+                 SEKCJA: O STUDIO & JOANNA
+                 ========================================================================== -->
+            <section id="o-nas" class="py-20 sm:py-28 bg-[#FCFBF9] border-b border-[#E8E2DA]">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+                        
+                        <!-- Lewa kolumna: Treść -->
+                        <div class="lg:col-span-7 reveal-on-scroll">
+                            <span class="inline-block px-3.5 py-1.5 rounded-full badge-beige text-xs font-bold uppercase tracking-wider mb-4">
+                                O studiu & artystce
+                            </span>
+                            <h2 class="font-logo text-3xl sm:text-5xl font-black text-[#0F0F12] tracking-tight leading-tight mb-6">
+                                Miejsce, w którym tatuaż staje się osobistym dziełem sztuki.
+                            </h2>
+                            <div class="space-y-5 text-neutral-600 text-base sm:text-lg leading-relaxed">
+                                <p>
+                                    <strong class="text-neutral-900 font-bold">CEGUA ink</strong> to kameralne, jasne i w pełni profesjonalne studio tatuażu w Tarnowie przy ul. Klikowskiej 186. 
+                                    Stworzone przez Joannę – artystkę z zamiłowaniem do czystych, cienkich linii, harmonijnych kompozycji i bezbłędnej estetyki.
+                                </p>
+                                <p>
+                                    Każde spotkanie w CEGUA ink przebiega w atmosferze spokoju, zaufania i pełnego skupienia na Twoich oczekiwaniach. 
+                                    Niezależnie od tego, czy przychodzisz po swój pierwszy, dyskretny napis, kwiatowy motyw, czy chcesz rozbudować większą kompozycję – otrzymasz indywidualny projekt i fachową opiekę.
+                                </p>
+                            </div>
+
+                            <!-- 3 Filary studia -->
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 pt-8 border-t border-[#E8E2DA]">
+                                <div class="p-4 rounded-xl bg-white border border-[#E8E2DA]">
+                                    <i data-lucide="pen-tool" class="w-6 h-6 text-[#BAAA98] mb-2"></i>
+                                    <h4 class="font-bold text-sm text-neutral-900">Precyzja Igły</h4>
+                                    <p class="text-xs text-neutral-500 mt-1">Cienkie, trwałe kontury i perfekcyjny mikrominimalizm.</p>
+                                </div>
+                                <div class="p-4 rounded-xl bg-white border border-[#E8E2DA]">
+                                    <i data-lucide="shield-check" class="w-6 h-6 text-[#BAAA98] mb-2"></i>
+                                    <h4 class="font-bold text-sm text-neutral-900">Medyczna Higiena</h4>
+                                    <p class="text-xs text-neutral-500 mt-1">100% jednorazowe igły i atestowane pigmenty najwyższej klasy.</p>
+                                </div>
+                                <div class="p-4 rounded-xl bg-white border border-[#E8E2DA]">
+                                    <i data-lucide="heart" class="w-6 h-6 text-[#BAAA98] mb-2"></i>
+                                    <h4 class="font-bold text-sm text-neutral-900">Ciepła Atmosfera</h4>
+                                    <p class="text-xs text-neutral-500 mt-1">Zero stresu, zrozumienie i wsparcie na każdym etapie.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Prawa kolumna: Karta wizytowa ze znakiem studia -->
+                        <div class="lg:col-span-5 reveal-scale reveal-delay-2">
+                            <div class="luxury-card rounded-3xl p-8 sm:p-10 border border-[#E8E2DA] relative overflow-hidden bg-white text-center shadow-lg">
+                                <div class="w-32 h-32 mx-auto rounded-3xl bg-[#FAF8F5] border border-[#E8E2DA] flex items-center justify-center p-4 mb-6 shadow-inner">
+                                    <img src="logo.png" alt="CEGUA ink symbol" class="w-full h-full object-contain">
+                                </div>
+                                <h3 class="font-logo text-3xl font-black text-[#0F0F12]">Joanna</h3>
+                                <p class="text-xs uppercase tracking-widest font-bold text-[#6E5E4E] mt-1">Artystka & Założycielka CEGUA ink</p>
+                                
+                                <blockquote class="text-sm italic text-neutral-600 mt-6 pt-6 border-t border-neutral-100">
+                                    "„Wchodząc do samego studia można poczuć jakby wchodziło się w całkiem inny świat. Pełen profesjonalizm i dbałość o każdy detal!”"
+                                </blockquote>
+                                <div class="mt-2 text-xs font-bold text-neutral-400">— Opinia klienta z Google Maps</div>
+
+                                <div class="mt-8 flex justify-center">
+                                    <a href="https://www.instagram.com/ceguaink" target="_blank" rel="noopener noreferrer" 
+                                       class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0F0F12] text-white text-xs font-bold uppercase tracking-wider hover:bg-neutral-800 transition">
+                                        <i data-lucide="instagram" class="w-4 h-4"></i>
+                                        <span>Obserwuj @ceguaink</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ==========================================================================
+                 SEKCJA: STYLE TATUAŻU
+                 ========================================================================== -->
+            <section id="style" class="py-20 sm:py-28 bg-[#FAF8F5] border-b border-[#E8E2DA]">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    
+                    <div class="text-center max-w-3xl mx-auto mb-16 reveal-on-scroll">
+                        <span class="inline-block px-3.5 py-1.5 rounded-full badge-beige text-xs font-bold uppercase tracking-wider mb-4">
+                            W czym się specjalizujemy
+                        </span>
+                        <h2 class="font-logo text-3xl sm:text-5xl font-black text-[#0F0F12] tracking-tight">
+                            Style dopasowane do Twojej wrażliwości
+                        </h2>
+                        <p class="text-base sm:text-lg text-neutral-600 mt-4">
+                            W CEGUA ink stawiamy na estetykę, lekkość i trwałość tatuażu. Sprawdź główne kierunki prac wykonywanych w studio.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                        
+                        <!-- Styl 1: Fineline -->
+                        <div class="luxury-card rounded-2xl p-6 bg-white border border-[#E8E2DA] reveal-on-scroll">
+                            <div class="w-12 h-12 rounded-xl bg-[#F5EFE9] flex items-center justify-center text-[#6E5E4E] mb-5">
+                                <i data-lucide="edit-3" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="font-logo text-base sm:text-lg font-bold text-[#0F0F12] mb-2 leading-snug">Fineline & Linie</h3>
+                            <p class="text-xs sm:text-sm text-neutral-500 leading-relaxed">
+                                Ultra cienkie linie, dyskrecja, lekkość i elegancja. Idealny wybór na pierwszy tatuaż.
+                            </p>
+                        </div>
+
+                        <!-- Styl 2: Botanika -->
+                        <div class="luxury-card rounded-2xl p-6 bg-white border border-[#E8E2DA] reveal-on-scroll reveal-delay-1">
+                            <div class="w-12 h-12 rounded-xl bg-[#F5EFE9] flex items-center justify-center text-[#6E5E4E] mb-5">
+                                <i data-lucide="flower-2" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="font-logo text-base sm:text-lg font-bold text-[#0F0F12] mb-2 leading-snug">Floral & Botanika</h3>
+                            <p class="text-xs sm:text-sm text-neutral-500 leading-relaxed">
+                                Magnolie, polne kwiaty, gałązki i liście oddane z kobiecą subtelnością i wyczuciem.
+                            </p>
+                        </div>
+
+                        <!-- Styl 3: Geometria & Mandala -->
+                        <div class="luxury-card rounded-2xl p-6 bg-white border border-[#E8E2DA] reveal-on-scroll reveal-delay-2">
+                            <div class="w-12 h-12 rounded-xl bg-[#F5EFE9] flex items-center justify-center text-[#6E5E4E] mb-5">
+                                <i data-lucide="compass" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="font-logo text-base sm:text-lg font-bold text-[#0F0F12] mb-2 leading-snug">Geometria & Mandala</h3>
+                            <p class="text-xs sm:text-sm text-neutral-500 leading-relaxed">
+                                Symetryczne kompozycje, motywy lotosu, precyzyjne kąty i harmonijne ornamenty.
+                            </p>
+                        </div>
+
+                        <!-- Styl 4: Dotwork & Pamiątkowe -->
+                        <div class="luxury-card rounded-2xl p-6 bg-white border border-[#E8E2DA] reveal-on-scroll reveal-delay-3">
+                            <div class="w-12 h-12 rounded-xl bg-[#F5EFE9] flex items-center justify-center text-[#6E5E4E] mb-5">
+                                <i data-lucide="heart" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="font-logo text-base sm:text-lg font-bold text-[#0F0F12] mb-2 leading-snug">Dotwork & Symbole</h3>
+                            <p class="text-xs sm:text-sm text-neutral-500 leading-relaxed">
+                                Dedykacje, motywy macierzyństwa, inicjały i cieniowanie punktowe o głębokim znaczeniu.
+                            </p>
+                        </div>
+
+                        <!-- Styl 5: Mikrorealizm & Fauna -->
+                        <div class="luxury-card rounded-2xl p-6 bg-white border border-[#E8E2DA] reveal-on-scroll reveal-delay-4">
+                            <div class="w-12 h-12 rounded-xl bg-[#F5EFE9] flex items-center justify-center text-[#6E5E4E] mb-5">
+                                <i data-lucide="waves" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="font-logo text-base sm:text-lg font-bold text-[#0F0F12] mb-2 leading-snug">Fauna & Miniatury</h3>
+                            <p class="text-xs sm:text-sm text-neutral-500 leading-relaxed">
+                                Morskie motywy, zwierzęta i dynamiczne miniatury z delikatnym akcentem koloru.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ==========================================================================
+                 SEKCJA: PORTFOLIO (AUTENTYCZNE PRACE Z LIGHTBOXEM)
+                 ========================================================================== -->
+            <section id="portfolio" class="py-20 sm:py-28 bg-[#FCFBF9] border-b border-[#E8E2DA]">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    
+                    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 reveal-on-scroll">
+                        <div>
+                            <span class="inline-block px-3.5 py-1.5 rounded-full badge-beige text-xs font-bold uppercase tracking-wider mb-4">
+                                Galeria prac
+                            </span>
+                            <h2 class="font-logo text-3xl sm:text-5xl font-black text-[#0F0F12] tracking-tight">
+                                Wybrane realizacje z CEGUA ink
+                            </h2>
+                            <p class="text-base sm:text-lg text-neutral-600 mt-2">
+                                Kliknij w dowolne zdjęcie, aby powiększyć je w pełnej rozdzielczości.
+                            </p>
+                        </div>
+                        <a href="https://www.instagram.com/ceguaink" target="_blank" rel="noopener noreferrer" 
+                           class="inline-flex items-center gap-2 text-sm font-bold text-neutral-900 hover:text-[#BAAA98] transition">
+                            <span>Zobacz więcej na Instagramie</span>
+                            <i data-lucide="external-link" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+
+                    <!-- Siatka Portfolio -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+                        
+                        <!-- Praca 1: Geometria & Mandala -->
+                        <div class="portfolio-card-wrap group cursor-pointer rounded-2xl overflow-hidden bg-white border border-[#E8E2DA] shadow-sm hover:shadow-xl transition-all duration-300 reveal-scale"
+                             data-title="Geometria & Mandala na przedramieniu" data-tag="Geometria / Fineline">
+                            <div class="aspect-[4/5] overflow-hidden bg-neutral-100 relative">
+                                <img src="portfolio-1.png" alt="Tatuaż Geometria i Mandala" class="portfolio-card-img w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+                                    <span class="text-white text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
+                                        <i data-lucide="zoom-in" class="w-4 h-4 text-[#BAAA98]"></i> Powiększ zdjęcie
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="p-5">
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-[#6E5E4E] block">Geometria & Mandala</span>
+                                <h4 class="font-bold text-base text-[#0F0F12] mt-1 group-hover:text-[#BAAA98] transition">Symetryczny lotos na przedramieniu</h4>
+                            </div>
+                        </div>
+
+                        <!-- Praca 2: Floral Magnolie -->
+                        <div class="portfolio-card-wrap group cursor-pointer rounded-2xl overflow-hidden bg-white border border-[#E8E2DA] shadow-sm hover:shadow-xl transition-all duration-300 reveal-scale reveal-delay-1"
+                             data-title="Subtelna gałązka magnolii z serduszkami" data-tag="Floral / Botanika">
+                            <div class="aspect-[4/5] overflow-hidden bg-neutral-100 relative">
+                                <img src="portfolio-2.png" alt="Tatuaż Kwiaty i Botanika" class="portfolio-card-img w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+                                    <span class="text-white text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
+                                        <i data-lucide="zoom-in" class="w-4 h-4 text-[#BAAA98]"></i> Powiększ zdjęcie
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="p-5">
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-[#6E5E4E] block">Floral & Botanika</span>
+                                <h4 class="font-bold text-base text-[#0F0F12] mt-1 group-hover:text-[#BAAA98] transition">Kwiecista gałązka z inicjałami</h4>
+                            </div>
+                        </div>
+
+                        <!-- Praca 3: Rekin na żebrach -->
+                        <div class="portfolio-card-wrap group cursor-pointer rounded-2xl overflow-hidden bg-white border border-[#E8E2DA] shadow-sm hover:shadow-xl transition-all duration-300 reveal-scale reveal-delay-2"
+                             data-title="Rekin i motyw wodny na żebrach" data-tag="Mikrorealizm / Fauna">
+                            <div class="aspect-[4/5] overflow-hidden bg-neutral-100 relative">
+                                <img src="portfolio-3.png" alt="Tatuaż Rekin na żebrach" class="portfolio-card-img w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+                                    <span class="text-white text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
+                                        <i data-lucide="zoom-in" class="w-4 h-4 text-[#BAAA98]"></i> Powiększ zdjęcie
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="p-5">
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-[#6E5E4E] block">Mikrorealizm & Fauna</span>
+                                <h4 class="font-bold text-base text-[#0F0F12] mt-1 group-hover:text-[#BAAA98] transition">Rekin z fioletowym akcentem</h4>
+                            </div>
+                        </div>
+
+                        <!-- Praca 4: Macierzyństwo Dotwork -->
+                        <div class="portfolio-card-wrap group cursor-pointer rounded-2xl overflow-hidden bg-white border border-[#E8E2DA] shadow-sm hover:shadow-xl transition-all duration-300 reveal-scale reveal-delay-3"
+                             data-title="Sylwetka mamy z dzieckiem i dedykacją Nel" data-tag="Dotwork / Pamiątkowy">
+                            <div class="aspect-[4/5] overflow-hidden bg-neutral-100 relative">
+                                <img src="portfolio-4.png" alt="Tatuaż Macierzyństwo i Dziecko" class="portfolio-card-img w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+                                    <span class="text-white text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
+                                        <i data-lucide="zoom-in" class="w-4 h-4 text-[#BAAA98]"></i> Powiększ zdjęcie
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="p-5">
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-[#6E5E4E] block">Dotwork & Pamiątkowy</span>
+                                <h4 class="font-bold text-base text-[#0F0F12] mt-1 group-hover:text-[#BAAA98] transition">Macierzyństwo z imieniem Nel</h4>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ==========================================================================
+                 NOWA SEKCJA: OFICJALNY CENNIK STUDIA & ZADATEK
+                 ========================================================================== -->
+            <section id="cennik" class="py-20 sm:py-28 bg-[#FAF8F5] border-b border-[#E8E2DA]">
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    
+                    <div class="text-center max-w-2xl mx-auto mb-16 reveal-on-scroll">
+                        <span class="inline-block px-3.5 py-1.5 rounded-full badge-beige text-xs font-bold uppercase tracking-wider mb-4">
+                            Przejrzyste zasady
+                        </span>
+                        <h2 class="font-logo text-3xl sm:text-5xl font-black text-[#0F0F12] tracking-tight">
+                            Oficjalny cennik tatuażu
+                        </h2>
+                        <p class="text-base sm:text-lg text-neutral-600 mt-3">
+                            Pełna transparentność od pierwszego kontaktu. Cena zależy od rozmiaru oraz stopnia skomplikowania projektu.
+                        </p>
+                    </div>
+
+                    <!-- 2 Karty Wyróżnione: Konsultacja & Zadatek -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 reveal-scale">
+                        
+                        <div class="luxury-card rounded-2xl p-7 bg-white border border-[#E8E2DA] flex items-center gap-5">
+                            <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0 border border-emerald-200">
+                                <i data-lucide="message-circle" class="w-7 h-7"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs uppercase font-extrabold tracking-wider text-emerald-700 block">Bez zobowiązań</span>
+                                <h3 class="font-logo text-2xl font-black text-[#0F0F12] mt-0.5">KONSULTACJA: DARMOWA</h3>
+                                <p class="text-xs sm:text-sm text-neutral-500 mt-1 leading-relaxed">
+                                    Rozmowa z Joanną, dobór kompozycji, ocena miejsca i doradztwo są w 100% bezpłatne.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="luxury-card rounded-2xl p-7 bg-white border border-[#E8E2DA] flex items-center gap-5">
+                            <div class="w-14 h-14 rounded-2xl bg-[#F5EFE9] text-[#6E5E4E] flex items-center justify-center shrink-0 border border-[#E8E2DA]">
+                                <i data-lucide="shield-check" class="w-7 h-7"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs uppercase font-extrabold tracking-wider text-[#6E5E4E] block">Rezerwacja terminu</span>
+                                <h3 class="font-logo text-2xl font-black text-[#0F0F12] mt-0.5">ZADATEK: 100 – 200 PLN</h3>
+                                <p class="text-xs sm:text-sm text-neutral-500 mt-1 leading-relaxed">
+                                    Wpłacany po ustaleniu terminu. W całości odliczany od ceny końcowej tatuażu w dniu sesji.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Tabela / Kafelki stawek rozmiarowych -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 reveal-on-scroll">
+                        
+                        <!-- 1-4 cm -->
+                        <div class="luxury-card rounded-2xl p-6 bg-white border border-[#E8E2DA] flex flex-col justify-between hover:border-[#0F0F12] transition">
+                            <div>
+                                <span class="text-[11px] font-extrabold uppercase tracking-wider text-[#6E5E4E]">Cena Startowa</span>
+                                <h4 class="font-logo text-xl font-black text-[#0F0F12] mt-1">TATUAŻ 1 – 4 CM</h4>
+                                <p class="text-xs text-neutral-500 mt-1">Drobny napis, minimalistyczny symbol, mały detal.</p>
+                            </div>
+                            <div class="mt-6 pt-5 border-t border-neutral-100 flex items-center justify-between">
+                                <span class="font-logo text-2xl font-black text-[#0F0F12]">od 300 PLN</span>
+                                <button type="button" class="cennik-select-btn px-4 py-2 rounded-xl bg-[#0F0F12] hover:bg-neutral-800 text-white text-xs font-bold uppercase tracking-wider transition"
+                                        data-size="1-4 cm [Cena startowa]" data-price="od 300 PLN">
+                                    Wybierz
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 5-8 cm -->
+                        <div class="luxury-card rounded-2xl p-6 bg-white border border-[#E8E2DA] flex flex-col justify-between hover:border-[#0F0F12] transition">
+                            <div>
+                                <span class="text-[11px] font-extrabold uppercase tracking-wider text-[#6E5E4E]">Subtelny projekt</span>
+                                <h4 class="font-logo text-xl font-black text-[#0F0F12] mt-1">TATUAŻ 5 – 8 CM</h4>
+                                <p class="text-xs text-neutral-500 mt-1">Kwiat, gałązka, nadgarstek, przedramię, żebra.</p>
+                            </div>
+                            <div class="mt-6 pt-5 border-t border-neutral-100 flex items-center justify-between">
+                                <span class="font-logo text-2xl font-black text-[#0F0F12]">od 400 PLN</span>
+                                <button type="button" class="cennik-select-btn px-4 py-2 rounded-xl bg-[#0F0F12] hover:bg-neutral-800 text-white text-xs font-bold uppercase tracking-wider transition"
+                                        data-size="5-8 cm" data-price="od 400 PLN">
+                                    Wybierz
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 9-12 cm -->
+                        <div class="luxury-card rounded-2xl p-6 bg-white border border-[#E8E2DA] flex flex-col justify-between hover:border-[#0F0F12] transition">
+                            <div>
+                                <span class="text-[11px] font-extrabold uppercase tracking-wider text-[#6E5E4E]">Średni format</span>
+                                <h4 class="font-logo text-xl font-black text-[#0F0F12] mt-1">TATUAŻ 9 – 12 CM</h4>
+                                <p class="text-xs text-neutral-500 mt-1">Kompozycja roślinna, motywy zwierzęce, mandala.</p>
+                            </div>
+                            <div class="mt-6 pt-5 border-t border-neutral-100 flex items-center justify-between">
+                                <span class="font-logo text-2xl font-black text-[#0F0F12]">od 600 PLN</span>
+                                <button type="button" class="cennik-select-btn px-4 py-2 rounded-xl bg-[#0F0F12] hover:bg-neutral-800 text-white text-xs font-bold uppercase tracking-wider transition"
+                                        data-size="9-12 cm" data-price="od 600 PLN">
+                                    Wybierz
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 13-15 cm -->
+                        <div class="luxury-card rounded-2xl p-6 bg-white border border-[#E8E2DA] flex flex-col justify-between hover:border-[#0F0F12] transition">
+                            <div>
+                                <span class="text-[11px] font-extrabold uppercase tracking-wider text-[#6E5E4E]">Większa forma</span>
+                                <h4 class="font-logo text-xl font-black text-[#0F0F12] mt-1">TATUAŻ 13 – 15 CM</h4>
+                                <p class="text-xs text-neutral-500 mt-1">Przedramię, udo, rozbudowana gałąź z detalami.</p>
+                            </div>
+                            <div class="mt-6 pt-5 border-t border-neutral-100 flex items-center justify-between">
+                                <span class="font-logo text-2xl font-black text-[#0F0F12]">od 900 PLN</span>
+                                <button type="button" class="cennik-select-btn px-4 py-2 rounded-xl bg-[#0F0F12] hover:bg-neutral-800 text-white text-xs font-bold uppercase tracking-wider transition"
+                                        data-size="13-15 cm" data-price="od 900 PLN">
+                                    Wybierz
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 16-18 cm -->
+                        <div class="luxury-card rounded-2xl p-6 bg-white border border-[#E8E2DA] flex flex-col justify-between hover:border-[#0F0F12] transition">
+                            <div>
+                                <span class="text-[11px] font-extrabold uppercase tracking-wider text-[#6E5E4E]">Duży projekt</span>
+                                <h4 class="font-logo text-xl font-black text-[#0F0F12] mt-1">TATUAŻ 16 – 18 CM</h4>
+                                <p class="text-xs text-neutral-500 mt-1">Znaczna część ręki, łydka, żebra z mikrorealizmem.</p>
+                            </div>
+                            <div class="mt-6 pt-5 border-t border-neutral-100 flex items-center justify-between">
+                                <span class="font-logo text-2xl font-black text-[#0F0F12]">od 1000 PLN</span>
+                                <button type="button" class="cennik-select-btn px-4 py-2 rounded-xl bg-[#0F0F12] hover:bg-neutral-800 text-white text-xs font-bold uppercase tracking-wider transition"
+                                        data-size="16-18 cm" data-price="od 1000 PLN">
+                                    Wybierz
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Sesja całodzienna -->
+                        <div class="luxury-card rounded-2xl p-6 bg-[#0F0F12] text-white border border-neutral-800 flex flex-col justify-between hover:border-[#BAAA98] transition">
+                            <div>
+                                <span class="text-[11px] font-extrabold uppercase tracking-wider text-[#BAAA98]">Kompleksowa sesja</span>
+                                <h4 class="font-logo text-xl font-black text-white mt-1">SESJA CAŁODZIENNA</h4>
+                                <p class="text-xs text-neutral-400 mt-1">Cały dzień pracy artystki wyłącznie na Twój projekt.</p>
+                            </div>
+                            <div class="mt-6 pt-5 border-t border-neutral-800 flex items-center justify-between">
+                                <span class="font-logo text-2xl font-black text-[#BAAA98]">od 1400 PLN</span>
+                                <button type="button" class="cennik-select-btn px-4 py-2 rounded-xl bg-white hover:bg-neutral-100 text-[#0F0F12] text-xs font-black uppercase tracking-wider transition"
+                                        data-size="Sesja całodzienna" data-price="od 1400 PLN">
+                                    Wybierz
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ==========================================================================
+                 SEKCJA: KALENDARZ I FORMULARZ REZERWACJI (WIZARD KROK PO KROKU)
+                 ========================================================================== -->
+            <section id="rezerwacja" class="py-20 sm:py-32 bg-[#FCFBF9] border-b border-[#E8E2DA] relative">
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                    
+                    <!-- Nagłówek sekcji -->
+                    <div class="text-center mb-12 reveal-on-scroll">
+                        <span class="inline-block px-3.5 py-1.5 rounded-full badge-beige text-xs font-bold uppercase tracking-wider mb-4">
+                            Rezerwacja online
+                        </span>
+                        <h2 class="font-logo text-3xl sm:text-5xl font-black text-[#0F0F12] tracking-tight">
+                            Wybierz rozmiar i zarezerwuj dogodny termin
+                        </h2>
+                        <p class="text-base sm:text-lg text-neutral-600 mt-3 max-w-xl mx-auto">
+                            Wygodny konfigurator wizyty w prostych krokach. Dni robocze: Pon–Pt 10:00 – 17:00, Sobota 10:00 – 15:00.
+                        </p>
+                    </div>
+
+                    <!-- Karta Kreatora -->
+                    <div class="luxury-card rounded-3xl p-6 sm:p-10 border border-[#E8E2DA] bg-white shadow-xl reveal-scale">
+                        
+                        <!-- Wskaźnik Kroków (Progress Badges) -->
+                        <div class="flex items-center justify-between max-w-md mx-auto mb-10 pb-6 border-b border-neutral-100">
+                            <div class="flex items-center gap-2">
+                                <div id="step-badge-1" class="w-9 h-9 rounded-full bg-[#0F0F12] text-white flex items-center justify-center font-bold text-sm">1</div>
+                                <span class="text-xs font-bold hidden sm:inline text-neutral-800">Rozmiar</span>
+                            </div>
+                            <div class="w-8 sm:w-12 h-0.5 bg-neutral-200"></div>
+                            <div class="flex items-center gap-2">
+                                <div id="step-badge-2" class="w-9 h-9 rounded-full bg-neutral-100 text-neutral-400 border border-neutral-200 flex items-center justify-center font-bold text-sm">2</div>
+                                <span class="text-xs font-bold hidden sm:inline text-neutral-400">Miejsce</span>
+                            </div>
+                            <div class="w-8 sm:w-12 h-0.5 bg-neutral-200"></div>
+                            <div class="flex items-center gap-2">
+                                <div id="step-badge-3" class="w-9 h-9 rounded-full bg-neutral-100 text-neutral-400 border border-neutral-200 flex items-center justify-center font-bold text-sm">3</div>
+                                <span class="text-xs font-bold hidden sm:inline text-neutral-400">Termin</span>
+                            </div>
+                            <div class="w-8 sm:w-12 h-0.5 bg-neutral-200"></div>
+                            <div class="flex items-center gap-2">
+                                <div id="step-badge-4" class="w-9 h-9 rounded-full bg-neutral-100 text-neutral-400 border border-neutral-200 flex items-center justify-center font-bold text-sm">4</div>
+                                <span class="text-xs font-bold hidden sm:inline text-neutral-400">Dane</span>
+                            </div>
+                        </div>
+
+                        <!-- KROK 1: WYBÓR ROZMIARU (ZGODNY Z OFICJALNYM CENNIKIEM) -->
+                        <div id="booking-step-1" class="space-y-8">
+                            <div>
+                                <h3 class="font-logo text-xl sm:text-2xl font-bold text-[#0F0F12] mb-1">Krok 1: Wybierz orientacyjny rozmiar tatuażu</h3>
+                                <p class="text-xs sm:text-sm text-neutral-500">Stawki zgodne z oficjalnym cennikiem studia. Dokładną wycenę ustalamy podczas bezpłatnej konsultacji.</p>
+                            </div>
+
+                            <!-- Wybór Rozmiaru Zgodny z Oficjalnym Cennikiem -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                                
+                                <button type="button" class="booking-size-btn p-4 rounded-2xl border-2 border-[#0F0F12] bg-[#0F0F12] text-white text-left transition relative flex flex-col justify-between"
+                                        data-size="1-4 cm [Cena startowa]" data-price="od 300 PLN">
+                                    <div>
+                                        <span class="text-xs font-bold uppercase tracking-wider text-[#BAAA98]">Cena startowa</span>
+                                        <div class="text-base font-bold mt-1">1 – 4 cm</div>
+                                        <p class="text-xs text-neutral-300 mt-1">Drobny napis, minimalistyczny symbol, mały detal</p>
+                                    </div>
+                                    <div class="mt-4 pt-3 border-t border-neutral-700 flex items-center justify-between">
+                                        <span class="size-btn-price text-sm font-extrabold text-[#BAAA98]">od 300 PLN</span>
+                                        <span class="card-check text-xs font-bold text-[#BAAA98] flex items-center gap-1">
+                                            <i data-lucide="check-circle" class="w-4 h-4"></i> Wybrany
+                                        </span>
+                                    </div>
+                                </button>
+
+                                <button type="button" class="booking-size-btn p-4 rounded-2xl border-2 border-neutral-200 bg-white text-neutral-800 text-left hover:border-[#0F0F12] transition relative flex flex-col justify-between"
+                                        data-size="5-8 cm" data-price="od 400 PLN">
+                                    <div>
+                                        <span class="text-xs font-bold uppercase tracking-wider text-[#6E5E4E]">Subtelny projekt</span>
+                                        <div class="text-base font-bold mt-1">5 – 8 cm</div>
+                                        <p class="text-xs text-neutral-500 mt-1">Kwiat, gałązka, nadgarstek, przedramię, żebra</p>
+                                    </div>
+                                    <div class="mt-4 pt-3 border-t border-neutral-100 flex items-center justify-between">
+                                        <span class="size-btn-price text-sm font-extrabold text-[#0F0F12]">od 400 PLN</span>
+                                        <span class="card-check text-xs font-bold text-[#0F0F12] items-center gap-1 hidden">
+                                            <i data-lucide="check-circle" class="w-4 h-4"></i> Wybrany
+                                        </span>
+                                    </div>
+                                </button>
+
+                                <button type="button" class="booking-size-btn p-4 rounded-2xl border-2 border-neutral-200 bg-white text-neutral-800 text-left hover:border-[#0F0F12] transition relative flex flex-col justify-between"
+                                        data-size="9-12 cm" data-price="od 600 PLN">
+                                    <div>
+                                        <span class="text-xs font-bold uppercase tracking-wider text-[#6E5E4E]">Średni format</span>
+                                        <div class="text-base font-bold mt-1">9 – 12 cm</div>
+                                        <p class="text-xs text-neutral-500 mt-1">Kompozycja roślinna, motywy zwierzęce, mandala</p>
+                                    </div>
+                                    <div class="mt-4 pt-3 border-t border-neutral-100 flex items-center justify-between">
+                                        <span class="size-btn-price text-sm font-extrabold text-[#0F0F12]">od 600 PLN</span>
+                                        <span class="card-check text-xs font-bold text-[#0F0F12] items-center gap-1 hidden">
+                                            <i data-lucide="check-circle" class="w-4 h-4"></i> Wybrany
+                                        </span>
+                                    </div>
+                                </button>
+
+                                <button type="button" class="booking-size-btn p-4 rounded-2xl border-2 border-neutral-200 bg-white text-neutral-800 text-left hover:border-[#0F0F12] transition relative flex flex-col justify-between"
+                                        data-size="13-15 cm" data-price="od 900 PLN">
+                                    <div>
+                                        <span class="text-xs font-bold uppercase tracking-wider text-[#6E5E4E]">Większy format</span>
+                                        <div class="text-base font-bold mt-1">13 – 15 cm</div>
+                                        <p class="text-xs text-neutral-500 mt-1">Większa kompozycja na udo, łydkę, przedramię</p>
+                                    </div>
+                                    <div class="mt-4 pt-3 border-t border-neutral-100 flex items-center justify-between">
+                                        <span class="size-btn-price text-sm font-extrabold text-[#0F0F12]">od 900 PLN</span>
+                                        <span class="card-check text-xs font-bold text-[#0F0F12] items-center gap-1 hidden">
+                                            <i data-lucide="check-circle" class="w-4 h-4"></i> Wybrany
+                                        </span>
+                                    </div>
+                                </button>
+
+                                <button type="button" class="booking-size-btn p-4 rounded-2xl border-2 border-neutral-200 bg-white text-neutral-800 text-left hover:border-[#0F0F12] transition relative flex flex-col justify-between"
+                                        data-size="16-18 cm" data-price="od 1000 PLN">
+                                    <div>
+                                        <span class="text-xs font-bold uppercase tracking-wider text-[#6E5E4E]">Duży projekt</span>
+                                        <div class="text-base font-bold mt-1">16 – 18 cm</div>
+                                        <p class="text-xs text-neutral-500 mt-1">Półrękaw, rozbudowana kompozycja autorska</p>
+                                    </div>
+                                    <div class="mt-4 pt-3 border-t border-neutral-100 flex items-center justify-between">
+                                        <span class="size-btn-price text-sm font-extrabold text-[#0F0F12]">od 1000 PLN</span>
+                                        <span class="card-check text-xs font-bold text-[#0F0F12] items-center gap-1 hidden">
+                                            <i data-lucide="check-circle" class="w-4 h-4"></i> Wybrany
+                                        </span>
+                                    </div>
+                                </button>
+
+                                <button type="button" class="booking-size-btn p-4 rounded-2xl border-2 border-neutral-200 bg-white text-neutral-800 text-left hover:border-[#0F0F12] transition relative flex flex-col justify-between"
+                                        data-size="Sesja całodzienna" data-price="od 1400 PLN">
+                                    <div>
+                                        <span class="text-xs font-bold uppercase tracking-wider text-[#6E5E4E]">Cały dzień</span>
+                                        <div class="text-base font-bold mt-1">Sesja całodzienna</div>
+                                        <p class="text-xs text-neutral-500 mt-1">Wielki autorski projekt, indywidualna sesja</p>
+                                    </div>
+                                    <div class="mt-4 pt-3 border-t border-neutral-100 flex items-center justify-between">
+                                        <span class="size-btn-price text-sm font-extrabold text-[#0F0F12]">od 1400 PLN</span>
+                                        <span class="card-check text-xs font-bold text-[#0F0F12] items-center gap-1 hidden">
+                                            <i data-lucide="check-circle" class="w-4 h-4"></i> Wybrany
+                                        </span>
+                                    </div>
+                                </button>
+
+                            </div>
+
+                            <!-- Informacja o zadatku i darmowej konsultacji -->
+                            <div class="p-4 rounded-xl bg-[#FAF8F5] border border-[#E8E2DA] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
+                                    <span>Konsultacja projektu: <strong class="text-emerald-700 font-bold uppercase">Darmowa</strong></span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="shield-check" class="w-4 h-4 text-[#BAAA98]"></i>
+                                    <span>Zadatek rezerwacyjny: <strong class="text-neutral-900 font-bold">100 - 200 PLN</strong> (odliczany od ceny sesji)</span>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-end pt-4">
+                                <button id="step-1-next" type="button" class="btn-primary-dark font-logo px-8 py-3.5 rounded-xl text-sm font-bold uppercase tracking-wider inline-flex items-center gap-2">
+                                    <span>Dalej: Miejsce na ciele</span>
+                                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- KROK 2: MIEJSCE NA CIELE I OPIS -->
+                        <div id="booking-step-2" class="space-y-6 hidden">
+                            <div>
+                                <h3 class="font-logo text-xl sm:text-2xl font-bold text-[#0F0F12] mb-1">Krok 2: Gdzie chcesz umieścić tatuaż?</h3>
+                                <p class="text-xs sm:text-sm text-neutral-500">Wpisz miejsce na ciele oraz krótki opis Twojej wizji:</p>
+                            </div>
+
+                            <div>
+                                <label for="tattoo-placement" class="block text-sm font-bold text-neutral-800 mb-2">
+                                    Miejsce na ciele *
+                                </label>
+                                <input type="text" id="tattoo-placement" placeholder="np. przedramię, żebra, nadgarstek, łopatka"
+                                       class="w-full px-4 py-3.5 rounded-xl border border-neutral-300 focus:border-[#0F0F12] focus:ring-1 focus:ring-[#0F0F12] outline-none text-sm transition">
+                            </div>
+
+                            <div>
+                                <label for="tattoo-description" class="block text-sm font-bold text-neutral-800 mb-2">
+                                    Opis pomysłu / symboliki (opcjonalnie)
+                                </label>
+                                <textarea id="tattoo-description" rows="3" placeholder="Opisz krótko swój pomysł, czy masz już konkretną inspirację, czy Joanna ma stworzyć autorski projekt..."
+                                          class="w-full px-4 py-3.5 rounded-xl border border-neutral-300 focus:border-[#0F0F12] focus:ring-1 focus:ring-[#0F0F12] outline-none text-sm transition resize-none"></textarea>
+                            </div>
+
+                            <!-- Upload zdjęć inspiracji -->
+                            <div>
+                                <label class="block text-sm font-bold text-neutral-800 mb-2">
+                                    Zdjęcia inspiracji lub projektu (opcjonalnie, maks. 3 pliki)
+                                </label>
+                                <div id="inspiration-dropzone" class="border-2 border-dashed border-[#E8E2DA] rounded-2xl p-6 text-center hover:border-[#BAAA98] transition cursor-pointer bg-[#FAF8F5]/80 hover:bg-[#F5EFE9]/40">
+                                    <i data-lucide="upload-cloud" class="w-8 h-8 mx-auto text-[#BAAA98] mb-2"></i>
+                                    <p class="text-sm text-neutral-700 font-bold">Kliknij lub przeciągnij zdjęcia (JPG, PNG, WEBP)</p>
+                                    <span class="text-xs text-neutral-400 mt-1 block">Maksymalnie 3 zdjęcia, do 5MB każde</span>
+                                    <input type="file" id="inspiration-file-input" multiple accept="image/*" class="hidden">
+                                </div>
+                                <div id="uploaded-files-preview" class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-3"></div>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-[#FAF8F5] border border-[#E8E2DA] flex items-start gap-3">
+                                <i data-lucide="info" class="w-5 h-5 text-[#BAAA98] shrink-0 mt-0.5"></i>
+                                <p class="text-xs text-neutral-600 leading-relaxed">
+                                    Zdjęcia możesz przesłać powyżej lub dosłać je po rezerwacji bezpośrednio na nasz Instagram <strong class="text-neutral-900 font-bold">@ceguaink</strong>.
+                                </p>
+                            </div>
+
+                            <div class="flex items-center justify-between pt-4">
+                                <button id="step-2-back" type="button" class="px-6 py-3 rounded-xl border border-neutral-300 font-bold text-sm text-neutral-700 hover:bg-neutral-50 transition">
+                                    Wróć
+                                </button>
+                                <button id="step-2-next" type="button" class="btn-primary-dark font-logo px-8 py-3.5 rounded-xl text-sm font-bold uppercase tracking-wider inline-flex items-center gap-2">
+                                    <span>Dalej: Wybierz termin</span>
+                                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- KROK 3: KALENDARZ I GODZINY -->
+                        <div id="booking-step-3" class="space-y-6 hidden">
+                            <div>
+                                <h3 class="font-logo text-xl sm:text-2xl font-bold text-[#0F0F12] mb-1">Krok 3: Wybierz datę i godzinę</h3>
+                                <p class="text-xs sm:text-sm text-neutral-500">
+                                    Godziny przyjęć: Poniedziałek - Piątek 10:00 - 17:00 | Sobota: 10:00 - 15:00 (Niedziela zamknięte).
+                                </p>
+                            </div>
+
+                            <!-- Kalendarz -->
+                            <div class="p-4 sm:p-6 rounded-2xl bg-[#FAF8F5] border border-[#E8E2DA]">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h4 id="cal-month-title" class="font-logo font-bold text-base sm:text-lg text-neutral-900"></h4>
+                                    <div class="flex items-center gap-2">
+                                        <button id="cal-prev-month" type="button" class="p-2 rounded-lg bg-white border border-neutral-200 hover:bg-neutral-100 text-neutral-700 transition" aria-label="Poprzedni miesiąc">
+                                            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                                        </button>
+                                        <button id="cal-next-month" type="button" class="p-2 rounded-lg bg-white border-neutral-200 border hover:bg-neutral-100 text-neutral-700 transition" aria-label="Następny miesiąc">
+                                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Dni tygodnia -->
+                                <div class="grid grid-cols-7 gap-1 text-center font-bold text-[11px] text-neutral-400 mb-2 uppercase tracking-wider">
+                                    <div>Pon</div>
+                                    <div>Wt</div>
+                                    <div>Śr</div>
+                                    <div>Czw</div>
+                                    <div>Pt</div>
+                                    <div>Sob</div>
+                                    <div class="text-rose-400">Niedz</div>
+                                </div>
+
+                                <!-- Siatka dni -->
+                                <div id="cal-days-grid" class="grid grid-cols-7 gap-1.5 sm:gap-2"></div>
+
+                                <!-- Legenda dostępności terminów -->
+                                <div class="mt-5 pt-4 border-t border-[#E8E2DA] flex items-center justify-center gap-4 sm:gap-6 text-xs font-semibold text-neutral-600 flex-wrap">
+                                    <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-emerald-500"></span> Wolny termin</span>
+                                    <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-400"></span> Ostatnie godziny</span>
+                                    <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-rose-500"></span> <span class="line-through text-rose-700">Zajęty</span> (brak miejsc)</span>
+                                    <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-neutral-300"></span> Zamknięte (Niedziela)</span>
+                                </div>
+                            </div>
+
+                            <!-- Sloty godzinowe -->
+                            <div id="cal-time-slots-container" class="hidden space-y-3 pt-2">
+                                <label class="block text-sm font-bold text-neutral-800">
+                                    Dostępne godziny na dzień <span id="selected-date-display" class="font-mono text-[#6E5E4E]"></span>:
+                                </label>
+                                <div id="cal-time-slots-grid" class="grid grid-cols-3 sm:grid-cols-5 gap-2.5"></div>
+                            </div>
+
+                            <div class="flex items-center justify-between pt-4">
+                                <button id="step-3-back" type="button" class="px-6 py-3 rounded-xl border border-neutral-300 font-bold text-sm text-neutral-700 hover:bg-neutral-50 transition">
+                                    Wróć
+                                </button>
+                                <button id="step-3-next" type="button" class="btn-primary-dark font-logo px-8 py-3.5 rounded-xl text-sm font-bold uppercase tracking-wider inline-flex items-center gap-2">
+                                    <span>Dalej: Podsumowanie</span>
+                                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- KROK 4: DANE I PODSUMOWANIE (Z CENAMI I ZADATKIEM) -->
+                        <div id="booking-step-4" class="space-y-6 hidden">
+                            <div>
+                                <h3 class="font-logo text-xl sm:text-2xl font-bold text-[#0F0F12] mb-1">Krok 4: Twoje dane kontaktowe</h3>
+                                <p class="text-xs sm:text-sm text-neutral-500">Skontaktujemy się telefonicznie w celu potwierdzenia wizyty:</p>
+                            </div>
+
+                            <!-- Box podsumowania wyboru -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-[#FAF8F5] border border-[#E8E2DA] space-y-2 text-xs sm:text-sm">
+                                <div class="flex justify-between items-center py-1 border-b border-neutral-200/60">
+                                    <span class="text-neutral-500">Rozmiar projektu:</span>
+                                    <span id="sum-size" class="font-bold text-neutral-900"></span>
+                                </div>
+                                <div class="flex justify-between items-center py-1 border-b border-neutral-200/60">
+                                    <span class="text-neutral-500">Szacowana cena wg cennika:</span>
+                                    <span id="sum-price" class="font-black text-[#6E5E4E]"></span>
+                                </div>
+                                <div class="flex justify-between items-center py-1 border-b border-neutral-200/60">
+                                    <span class="text-neutral-500">Miejsce na ciele:</span>
+                                    <span id="sum-placement" class="font-bold text-neutral-900"></span>
+                                </div>
+                                <div class="flex justify-between items-center py-1 border-b border-neutral-200/60">
+                                    <span class="text-neutral-500">Załączone zdjęcia:</span>
+                                    <span id="sum-photos" class="font-bold text-neutral-900">0 załączników</span>
+                                </div>
+                                <div class="flex justify-between items-center py-1 border-b border-neutral-200/60">
+                                    <span class="text-neutral-500">Konsultacja / Zadatek:</span>
+                                    <span class="font-semibold text-emerald-800">Konsultacja darmowa • Zadatek 100-200 zł</span>
+                                </div>
+                                <div class="flex justify-between items-center py-1 text-emerald-800 pt-2">
+                                    <span class="font-semibold">Termin wizyty:</span>
+                                    <span id="sum-datetime" class="font-extrabold text-neutral-900"></span>
+                                </div>
+                            </div>
+
+                            <!-- Pola formularza -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="client-name" class="block text-sm font-bold text-neutral-800 mb-1.5">Imię i nazwisko *</label>
+                                    <input type="text" id="client-name" required placeholder="np. Anna Nowak"
+                                           class="w-full px-4 py-3 rounded-xl border border-neutral-300 focus:border-[#0F0F12] focus:ring-1 focus:ring-[#0F0F12] outline-none text-sm transition">
+                                </div>
+                                <div>
+                                    <label for="client-phone" class="block text-sm font-bold text-neutral-800 mb-1.5">Telefon kontaktowy *</label>
+                                    <input type="tel" id="client-phone" required placeholder="np. 500 123 456"
+                                           class="w-full px-4 py-3 rounded-xl border border-neutral-300 focus:border-[#0F0F12] focus:ring-1 focus:ring-[#0F0F12] outline-none text-sm transition">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="client-email" class="block text-sm font-bold text-neutral-800 mb-1.5">Adres e-mail (opcjonalnie)</label>
+                                <input type="email" id="client-email" placeholder="twoj@email.pl"
+                                       class="w-full px-4 py-3 rounded-xl border border-neutral-300 focus:border-[#0F0F12] focus:ring-1 focus:ring-[#0F0F12] outline-none text-sm transition">
+                            </div>
+
+                            <div>
+                                <label for="client-notes" class="block text-sm font-bold text-neutral-800 mb-1.5">Dodatkowe uwagi dla Joanny</label>
+                                <input type="text" id="client-notes" placeholder="np. to mój pierwszy tatuaż, zależy mi na cienkiej igle..."
+                                       class="w-full px-4 py-3 rounded-xl border border-neutral-300 focus:border-[#0F0F12] focus:ring-1 focus:ring-[#0F0F12] outline-none text-sm transition">
+                            </div>
+
+                            <div class="flex items-center justify-between pt-4">
+                                <button id="step-4-back" type="button" class="px-6 py-3 rounded-xl border border-neutral-300 font-bold text-sm text-neutral-700 hover:bg-neutral-50 transition">
+                                    Wróć do kalendarza
+                                </button>
+                                <button id="step-4-submit" type="button" class="btn-primary-dark font-logo px-9 py-4 rounded-xl text-sm font-bold uppercase tracking-wider inline-flex items-center gap-2">
+                                    <span>Potwierdź i wyślij zgłoszenie</span>
+                                    <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ==========================================================================
+                 SEKCJA: OPINIE GOOGLE (5.0 ★ / 107 OPINII)
+                 ========================================================================== -->
+            <section id="opinie" class="py-20 sm:py-28 bg-[#FCFBF9] border-b border-[#E8E2DA]">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    
+                    <div class="text-center max-w-2xl mx-auto mb-16 reveal-on-scroll">
+                        <div class="inline-flex items-center gap-1.5 text-amber-400 mb-2">
+                            <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                            <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                            <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                            <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                            <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                        </div>
+                        <h2 class="font-logo text-3xl sm:text-5xl font-black text-[#0F0F12] tracking-tight">
+                            5,0 w Google • Szczere recenzje
+                        </h2>
+                        <p class="text-base text-neutral-600 mt-2">
+                            Najwyższa ocena w Tarnowie. Zobacz, co mówią klienci o pracy i atmosferze w CEGUA ink.
+                        </p>
+                    </div>
+
+                    <!-- Siatka Opinii -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                        
+                        <!-- Opinia 1: Dominika Skalak -->
+                        <div class="luxury-card rounded-2xl p-6 sm:p-8 bg-white border border-[#E8E2DA] flex flex-col justify-between reveal-on-scroll">
+                            <div>
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-full bg-[#F5EFE9] text-[#6E5E4E] font-bold flex items-center justify-center text-sm">
+                                            DS
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-sm text-neutral-900">Dominika Skalak</h4>
+                                            <span class="text-[11px] text-neutral-400">5 opinii • 2 zdjęcia</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex text-amber-400">
+                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                    </div>
+                                </div>
+                                <p class="text-sm sm:text-base text-neutral-700 leading-relaxed italic">
+                                    "„Mega polecam! 🔥 Tatuaż wykonany z ogromną precyzją, wszystko dopracowane w najmniejszym szczególe. Do tego super atmosfera – zero stresu, pełen luz i profesjonalne podejście. Polecam z całego ❤️🔥”"
+                                </p>
+                            </div>
+                            <div class="mt-4 pt-4 border-t border-neutral-100 flex items-center justify-between text-xs text-neutral-400">
+                                <span>Opinia z Google Maps</span>
+                                <span class="text-emerald-700 font-semibold">✓ Zweryfikowany klient</span>
+                            </div>
+                        </div>
+
+                        <!-- Opinia 2: Mateusz Chemik -->
+                        <div class="luxury-card rounded-2xl p-6 sm:p-8 bg-white border border-[#E8E2DA] flex flex-col justify-between reveal-on-scroll reveal-delay-1">
+                            <div>
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-full bg-[#F5EFE9] text-[#6E5E4E] font-bold flex items-center justify-center text-sm">
+                                            MC
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-sm text-neutral-900">Mateusz Chemik</h4>
+                                            <span class="text-[11px] text-neutral-400">5 opinii</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex text-amber-400">
+                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                    </div>
+                                </div>
+                                <p class="text-sm sm:text-base text-neutral-700 leading-relaxed italic">
+                                    "„Uśmiechnięta, profesjonalna i zaangażowana w 100% Asia w bardzo krótkim czasie z mojej mieszaniny stworzyła wspaniały projekt... Najwyższa jakość przyrządów oraz zachowana wysoka higiena świadczy o bardzo wysokim profesjonalizmie. Wchodząc do studia można poczuć jakby wchodziło się w całkiem inny świat!”"
+                                </p>
+                            </div>
+                            <div class="mt-4 pt-4 border-t border-neutral-100 flex items-center justify-between text-xs text-neutral-400">
+                                <span>Opinia z Google Maps</span>
+                                <span class="text-emerald-700 font-semibold">✓ Zweryfikowany klient</span>
+                            </div>
+                        </div>
+
+                        <!-- Opinia 3: Patryk Ludwa -->
+                        <div class="luxury-card rounded-2xl p-6 sm:p-8 bg-white border border-[#E8E2DA] flex flex-col justify-between reveal-on-scroll reveal-delay-2">
+                            <div>
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-full bg-[#F5EFE9] text-[#6E5E4E] font-bold flex items-center justify-center text-sm">
+                                            PL
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-sm text-neutral-900">Patryk Ludwa</h4>
+                                            <span class="text-[11px] text-neutral-400">Lokalny przewodnik • 40 opinii</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex text-amber-400">
+                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                    </div>
+                                </div>
+                                <p class="text-sm sm:text-base text-neutral-700 leading-relaxed italic">
+                                    "„Pani Joanna to prawdziwa artystka! Tatuaże wyszły dokładnie tak, jak sobie wymarzyłem. Profesjonalne podejście, świetna atmosfera i dbałość o każdy detal. Wpadnę jeszcze nie raz, gorąco polecam! 🖤”"
+                                </p>
+                            </div>
+                            <div class="mt-4 pt-4 border-t border-neutral-100 flex items-center justify-between text-xs text-neutral-400">
+                                <span>Opinia z Google Maps</span>
+                                <span class="text-emerald-700 font-semibold">✓ Zweryfikowany klient</span>
+                            </div>
+                        </div>
+
+                        <!-- Opinia 4: Karolina Kierońska -->
+                        <div class="luxury-card rounded-2xl p-6 sm:p-8 bg-white border border-[#E8E2DA] flex flex-col justify-between reveal-on-scroll reveal-delay-3">
+                            <div>
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-full bg-[#F5EFE9] text-[#6E5E4E] font-bold flex items-center justify-center text-sm">
+                                            KK
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-sm text-neutral-900">Karolina Kierońska</h4>
+                                            <span class="text-[11px] text-neutral-400">3 opinie</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex text-amber-400">
+                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                    </div>
+                                </div>
+                                <p class="text-sm sm:text-base text-neutral-700 leading-relaxed italic">
+                                    "„Serdecznie polecam ! ☺️ Miła atmosfera i pełen profesjonalizm ☺️”"
+                                </p>
+                            </div>
+                            <div class="mt-4 pt-4 border-t border-neutral-100 flex items-center justify-between text-xs text-neutral-400">
+                                <span>Opinia z Google Maps</span>
+                                <span class="text-emerald-700 font-semibold">✓ Zweryfikowany klient</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ==========================================================================
+                 SEKCJA: FAQ (NAJCZĘŚCIEJ ZADAWANE PYTANIA)
+                 ========================================================================== -->
+            <section id="faq" class="py-20 sm:py-28 bg-[#FCFBF9] border-b border-[#E8E2DA]">
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                    
+                    <div class="text-center mb-16 reveal-on-scroll">
+                        <span class="inline-block px-3.5 py-1.5 rounded-full badge-beige text-xs font-bold uppercase tracking-wider mb-4">
+                            Warto wiedzieć
+                        </span>
+                        <h2 class="font-logo text-3xl sm:text-5xl font-black text-[#0F0F12] tracking-tight">
+                            Częste pytania przed wizytą
+                        </h2>
+                    </div>
+
+                    <div class="space-y-4 reveal-scale">
+                        
+                        <details class="group bg-white rounded-2xl border border-[#E8E2DA] p-6 cursor-pointer">
+                            <summary class="flex justify-between items-center font-bold text-base sm:text-lg text-neutral-900 list-none">
+                                <span>Ile kosztuje tatuaż i jak działa wycena w CEGUA ink?</span>
+                                <i data-lucide="chevron-down" class="faq-chevron w-5 h-5 text-[#BAAA98] transition-transform duration-300"></i>
+                            </summary>
+                            <div class="faq-content">
+                                <div class="faq-content-inner pt-4 text-sm sm:text-base text-neutral-600 leading-relaxed border-t border-neutral-100 mt-4 space-y-2">
+                                    <p>Stawki w naszym studiu są przejrzyste i uzależnione od rozmiaru oraz ilości detali:</p>
+                                    <ul class="list-disc pl-5 text-sm space-y-1 text-neutral-700">
+                                        <li><strong>1 – 4 cm (cena startowa):</strong> od 300 PLN</li>
+                                        <li><strong>5 – 8 cm:</strong> od 400 PLN</li>
+                                        <li><strong>9 – 12 cm:</strong> od 600 PLN</li>
+                                        <li><strong>13 – 15 cm:</strong> od 900 PLN</li>
+                                        <li><strong>16 – 18 cm:</strong> od 1000 PLN</li>
+                                        <li><strong>Sesja całodzienna:</strong> od 1400 PLN</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </details>
+
+                        <details class="group bg-white rounded-2xl border border-[#E8E2DA] p-6 cursor-pointer">
+                            <summary class="flex justify-between items-center font-bold text-base sm:text-lg text-neutral-900 list-none">
+                                <span>Czy konsultacja jest płatna i jak działa zadatek?</span>
+                                <i data-lucide="chevron-down" class="faq-chevron w-5 h-5 text-[#BAAA98] transition-transform duration-300"></i>
+                            </summary>
+                            <div class="faq-content">
+                                <div class="faq-content-inner pt-4 text-sm sm:text-base text-neutral-600 leading-relaxed border-t border-neutral-100 mt-4">
+                                    <strong>Konsultacja w CEGUA ink jest w 100% darmowa!</strong> Możesz przyjść, porozmawiać o swoim pomyśle i rozwiać wątpliwości. Po wyborze terminu pobieramy zadatek rezerwacyjny w wysokości <strong>100 – 200 PLN</strong>, który jest w całości odliczany od ostatecznego kosztu tatuażu w dniu sesji.
+                                </div>
+                            </div>
+                        </details>
+
+                        <details class="group bg-white rounded-2xl border border-[#E8E2DA] p-6 cursor-pointer">
+                            <summary class="flex justify-between items-center font-bold text-base sm:text-lg text-neutral-900 list-none">
+                                <span>Czy tatuaż w stylu fineline jest bolesny?</span>
+                                <i data-lucide="chevron-down" class="faq-chevron w-5 h-5 text-[#BAAA98] transition-transform duration-300"></i>
+                            </summary>
+                            <div class="faq-content">
+                                <div class="faq-content-inner pt-4 text-sm sm:text-base text-neutral-600 leading-relaxed border-t border-neutral-100 mt-4">
+                                    Z reguły tatuaże fineline są znacznie mniej inwazyjne niż tatuaże tradycyjne z grubym wypełnieniem. Joanna pracuje na bardzo cienkich, precyzyjnych igłach, co sprawia, że zabieg jest komfortowy, a skóra goi się szybko i gładko.
+                                </div>
+                            </div>
+                        </details>
+
+                        <details class="group bg-white rounded-2xl border border-[#E8E2DA] p-6 cursor-pointer">
+                            <summary class="flex justify-between items-center font-bold text-base sm:text-lg text-neutral-900 list-none">
+                                <span>Czy muszę mieć gotowy projekt przed wizytą?</span>
+                                <i data-lucide="chevron-down" class="faq-chevron w-5 h-5 text-[#BAAA98] transition-transform duration-300"></i>
+                            </summary>
+                            <div class="faq-content">
+                                <div class="faq-content-inner pt-4 text-sm sm:text-base text-neutral-600 leading-relaxed border-t border-neutral-100 mt-4">
+                                    Nie! Wystarczy zarys Twojego pomysłu, motyw, pamiątkowe zdjęcie lub kilka inspiracji. Joanna tworzy autorskie projekty indywidualnie dopasowane do anatomii Twojego ciała.
+                                </div>
+                            </div>
+                        </details>
+
+                        <details class="group bg-white rounded-2xl border border-[#E8E2DA] p-6 cursor-pointer">
+                            <summary class="flex justify-between items-center font-bold text-base sm:text-lg text-neutral-900 list-none">
+                                <span>Gdzie dokładnie znajduje się studio i jak zaparkować?</span>
+                                <i data-lucide="chevron-down" class="faq-chevron w-5 h-5 text-[#BAAA98] transition-transform duration-300"></i>
+                            </summary>
+                            <div class="faq-content">
+                                <div class="faq-content-inner pt-4 text-sm sm:text-base text-neutral-600 leading-relaxed border-t border-neutral-100 mt-4">
+                                    Studio CEGUA ink mieści się w Tarnowie przy ulicy <strong class="text-neutral-900 font-bold">Klikowskiej 186</strong>. Przed lokalem oraz wzdłuż ulicy znajdują się wygodne miejsca parkingowe dla naszych gości.
+                                </div>
+                            </div>
+                        </details>
+
+                    </div>
+
+                </div>
+            </section>
+
+        </main>
+
+        <!-- ==========================================================================
+             STOPKA (FOOTER)
+             ========================================================================== -->
+        <!-- FOOTER / STOPKA -->
+        <footer id="contact" class="bg-[#0F0F12] text-white pt-16 pb-12 sm:pt-20 sm:pb-16 border-t border-neutral-800 relative z-20">
+            <div class="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
+                    
+                    <!-- Kolumna 1: O marce & Kontakt -->
+                    <div class="space-y-6 reveal-on-scroll reveal-delay-1">
+                        <div class="flex items-center gap-4">
+                            <img src="logo.png" alt="CEGUA ink" class="w-14 h-14 object-contain bg-white rounded-2xl p-1.5">
+                            <div>
+                                <span class="font-logo text-xl sm:text-2xl font-black tracking-wider text-white block">ceguaink</span>
+                                <span class="text-xs uppercase tracking-[0.22em] text-[#BAAA98] font-bold block">Tattoo Studio • Tarnów</span>
+                            </div>
+                        </div>
+                        <p class="text-base sm:text-lg text-neutral-400 leading-relaxed font-normal">
+                            Profesjonalne studio autorskiego tatuażu w Tarnowie. Unikalne wzory fineline, motywy botaniczne, geometria i bezpieczne wykonanie.
+                        </p>
+                        <div class="space-y-4 text-base sm:text-lg text-neutral-300">
+                            <div class="flex items-center gap-3.5">
+                                <i class="fa-solid fa-location-dot text-[#BAAA98] w-6 text-lg"></i>
+                                <span>Klikowska 186, 33-100 Tarnów, Poland</span>
+                            </div>
+                            <div class="flex items-center gap-3.5">
+                                <i class="fa-solid fa-phone text-[#BAAA98] w-6 text-lg"></i>
+                                <a href="tel:881400555" class="hover:text-[#BAAA98] font-black text-xl text-white transition">881 400 555</a>
+                            </div>
+                            <div class="flex items-center gap-3.5">
+                                <i class="fa-brands fa-instagram text-[#BAAA98] w-6 text-lg"></i>
+                                <a href="https://www.instagram.com/ceguaink" target="_blank" class="hover:text-[#BAAA98] underline font-bold transition">@ceguaink</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kolumna 2: Godziny Pracy Studia -->
+                    <div class="space-y-6 reveal-on-scroll reveal-delay-2">
+                        <h3 class="font-logo text-lg sm:text-xl text-white font-bold uppercase tracking-wider">Godziny Pracy Studia</h3>
+                        <div class="space-y-4 text-base sm:text-lg text-neutral-300">
+                            <div class="flex justify-between border-b border-neutral-800 pb-3">
+                                <span>Poniedziałek – Piątek:</span>
+                                <span class="font-bold text-white">10:00 – 17:00</span>
+                            </div>
+                            <div class="flex justify-between border-b border-neutral-800 pb-3">
+                                <span>Sobota:</span>
+                                <span class="font-bold text-[#BAAA98]">10:00 – 15:00</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Niedziela:</span>
+                                <span class="font-bold text-rose-500">ZAMKNIĘTE</span>
+                            </div>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-neutral-800/80 border border-neutral-700 text-sm sm:text-base text-neutral-300">
+                            <i class="fa-solid fa-circle-info text-[#BAAA98] mr-2"></i> Rezerwacje przez formularz online działają całą dobę.
+                        </div>
+                    </div>
+
+                    <!-- Kolumna 3: Wersja demonstracyjna -->
+                    <div class="space-y-6 reveal-on-scroll reveal-delay-3">
+                        <h3 class="font-logo text-lg sm:text-xl text-white font-bold uppercase tracking-wider">Chcesz Taką Stronę Dla Studia?</h3>
+                        <p class="text-base sm:text-lg text-neutral-400 leading-relaxed font-normal">
+                            To dedykowana wersja pokazowa przygotowana specjalnie dla CEGUA ink Tattoo Studio. Jeśli chcesz wdrożyć ten projekt i zyskać automatyczne rezerwacje – odezwij się do nas!
+                        </p>
+                        <button type="button" onclick="openContactOwnerModal()" class="w-full bg-[#BAAA98] hover:bg-[#A3907C] text-neutral-900 font-black py-4 sm:py-5 rounded-2xl text-center text-sm sm:text-base uppercase tracking-widest transition shadow-lg cursor-pointer flex items-center justify-center gap-2.5">
+                            <i class="fa-solid fa-envelope"></i> <span>Skontaktuj Się w Sprawie Strony</span>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Dolna Belka z wejściem do Panelu Studia i Polityką -->
+                <div class="border-t border-neutral-800 mt-16 pt-8 flex flex-col sm:flex-row justify-between items-center text-sm sm:text-base text-neutral-400 gap-4">
+                    <p>© 2026 CEGUA ink Tattoo Studio Tarnów. Wszelkie prawa zastrzeżone.</p>
+                    <div class="flex items-center gap-8">
+                        <a href="javascript:void(0)" onclick="openPrivacyModal()" class="hover:text-white transition">Polityka Prywatności</a>
+                        <a href="#admin" onclick="navigateToAdmin()" class="hover:text-[#BAAA98] font-mono transition flex items-center gap-2 font-bold cursor-pointer">
+                            <i class="fa-solid fa-lock text-sm"></i> Panel Studia
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- ==========================================================================
+         OSOBNY WIDOK PANELU ADMINA (OTWIERANY ZE STOPKI PRZEZ #admin)
+         ========================================================================== -->
+    <div id="admin-view-container" class="relative z-20 pt-8 pb-20 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 hidden min-h-screen">
+        
+        <!-- Pasek nawigacji powrotnej z Panelu -->
+        <div class="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-white border border-[#E8E2DA] shadow-sm">
+            <div class="flex items-center gap-3.5">
+                <img src="logo.png" alt="Logo" class="h-12 w-auto object-contain mix-blend-multiply">
+                <div>
+                    <span class="text-[11px] uppercase font-bold tracking-wider text-[#6E5E4E] block">Panel Personelu • Zarządzanie Rezerwacjami</span>
+                </div>
+            </div>
+            
+            <button type="button" onclick="navigateToSite()" class="px-5 py-2.5 rounded-xl border border-neutral-300 hover:border-[#0F0F12] bg-[#FAF8F5] hover:bg-neutral-100 text-xs font-bold text-neutral-800 flex items-center gap-2 transition cursor-pointer">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                <span>Wróć do strony głównej</span>
+            </button>
+        </div>
+
+        <!-- 1. EKRAN LOGOWANIA DO PANELU (jeśli nie zalogowany) -->
+        <div id="admin-login-box" class="max-w-md mx-auto luxury-card rounded-3xl p-8 sm:p-10 bg-white border border-[#E8E2DA] shadow-xl my-12 text-center">
+            <div class="w-16 h-16 mx-auto rounded-2xl bg-[#F5EFE9] flex items-center justify-center text-[#6E5E4E] mb-5">
+                <i data-lucide="lock" class="w-8 h-8"></i>
+            </div>
+            <h3 class="font-logo text-2xl font-black text-neutral-900 mb-1">Panel Personelu Studia</h3>
+            <p class="text-xs text-neutral-500 mb-6">Wpisz hasło dostępu do bazy terminów CEGUA ink:</p>
+
+            <div class="space-y-4">
+                <input type="password" id="admin-password" placeholder="Hasło (domyślne: admin123)"
+                       class="w-full px-4 py-3.5 rounded-xl border border-neutral-300 focus:border-[#0F0F12] focus:ring-1 focus:ring-[#0F0F12] outline-none text-sm text-center font-mono">
+                
+                <p id="admin-login-error" class="text-xs text-rose-600 font-semibold hidden"></p>
+
+                <button id="admin-login-btn" type="button" class="btn-primary-dark w-full py-4 rounded-xl font-logo text-sm font-bold uppercase tracking-wider">
+                    Zaloguj do bazy rezerwacji
+                </button>
+            </div>
+        </div>
+
+        <!-- 2. WŁAŚCIWY DASHBOARD ZGŁOSZEŃ (po zalogowaniu) -->
+        <div id="admin-dashboard-content" class="hidden space-y-6">
+            
+            <!-- Górne podsumowanie -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-white border border-[#E8E2DA] shadow-sm">
+                <div class="flex items-center gap-3">
+                    <span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <div>
+                        <h3 class="font-logo text-lg font-bold text-neutral-900">Zgłoszenia w czasie rzeczywistym</h3>
+                        <p class="text-xs text-neutral-500">
+                            Łącznie: <span id="admin-total-count" class="font-bold text-neutral-800">0</span> • 
+                            <span id="admin-pending-count" class="text-amber-700 font-semibold">0 oczekujących</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <button id="admin-export-csv" type="button" class="px-4 py-2.5 rounded-xl border border-neutral-200 bg-white hover:bg-neutral-50 text-xs font-bold text-neutral-800 flex items-center gap-1.5 transition">
+                        <i data-lucide="download" class="w-3.5 h-3.5"></i> Eksportuj CSV
+                    </button>
+                    <button id="admin-logout-btn" type="button" class="px-4 py-2.5 rounded-xl border border-rose-200 text-rose-600 hover:bg-rose-50 text-xs font-bold flex items-center gap-1.5 transition">
+                        <i data-lucide="log-out" class="w-3.5 h-3.5"></i> Wyloguj
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filtry zakładek -->
+            <div class="flex gap-2">
+                <button class="admin-filter-tab px-4 py-2 rounded-xl text-xs font-bold bg-[#0F0F12] text-white transition" data-filter="all">Wszystkie</button>
+                <button class="admin-filter-tab px-4 py-2 rounded-xl text-xs font-bold bg-white text-neutral-700 border border-neutral-200 hover:bg-neutral-50 transition" data-filter="pending">Tylko Oczekujące</button>
+                <button class="admin-filter-tab px-4 py-2 rounded-xl text-xs font-bold bg-white text-neutral-700 border border-neutral-200 hover:bg-neutral-50 transition" data-filter="accepted">Zaakceptowane</button>
+            </div>
+
+            <!-- Tabela zgłoszeń z kolumną ceny i rozmiaru z cennika -->
+            <div class="overflow-x-auto rounded-2xl border border-[#E8E2DA] bg-white shadow-sm">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead class="bg-[#FAF8F5] border-b border-[#E8E2DA] text-[11px] font-extrabold uppercase tracking-wider text-neutral-500">
+                        <tr>
+                            <th class="p-4">ID</th>
+                            <th class="p-4">Klient</th>
+                            <th class="p-4">Rozmiar & Wycena</th>
+                            <th class="p-4">Termin Wizyty</th>
+                            <th class="p-4">Status</th>
+                            <th class="p-4 text-right">Akcje</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-table-body" class="divide-y divide-neutral-100"></tbody>
+                </table>
+
+                <div id="admin-empty-state" class="p-12 text-center text-neutral-400 hidden">
+                    <i data-lucide="inbox" class="w-10 h-10 mx-auto mb-2 opacity-50"></i>
+                    <p class="text-sm font-semibold">Brak zgłoszeń w tej kategorii.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================================================
+         MODALE INTERAKTYWNE
+         ========================================================================== -->
+
+    <!-- Modal 1: Potwierdzenie Wysłania Rezerwacji -->
+    <div id="confirmation-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-3xl p-8 max-w-md w-full border border-[#E8E2DA] shadow-2xl text-center">
+            <div class="w-16 h-16 mx-auto rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4">
+                <i data-lucide="check" class="w-8 h-8"></i>
+            </div>
+            <h3 class="font-logo text-2xl font-black text-[#0F0F12]">Dziękujemy za zgłoszenie!</h3>
+            <p class="text-sm text-neutral-600 mt-2">
+                Cześć <strong id="conf-name" class="text-neutral-900"></strong>! Twoja prośba o termin została pomyślnie zarejestrowana w naszym systemie.
+            </p>
+
+            <div class="my-6 p-4 rounded-xl bg-[#FAF8F5] border border-[#E8E2DA] text-xs text-left space-y-1.5">
+                <div class="flex justify-between">
+                    <span class="text-neutral-500">Termin:</span>
+                    <span id="conf-datetime" class="font-bold text-neutral-900"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-neutral-500">Rozmiar projektu:</span>
+                    <span id="conf-size" class="font-bold text-neutral-900"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-neutral-500">Szacowana stawka:</span>
+                    <span id="conf-price" class="font-black text-[#6E5E4E]"></span>
+                </div>
+                <div class="flex justify-between" id="conf-photos-row">
+                    <span class="text-neutral-500">Załączone zdjęcia:</span>
+                    <span id="conf-photos" class="font-bold text-neutral-900">Brak</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-neutral-500">Lokalizacja:</span>
+                    <span class="font-bold text-neutral-900">Klikowska 186, Tarnów</span>
+                </div>
+            </div>
+
+            <p class="text-xs text-neutral-500 mb-6">
+                Skontaktujemy się telefonicznie w celu potwierdzenia szczegółów, konsultacji i ustalenia zadatku rezerwacyjnego.
+            </p>
+
+            <button id="conf-close-btn" type="button" class="btn-primary-dark w-full py-3.5 rounded-xl font-logo text-sm font-bold uppercase tracking-wider">
+                Zamknij okno
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal 2: Lightbox Portfolio -->
+    <div id="portfolio-lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 backdrop-blur-md p-4">
+        <div class="lightbox-backdrop absolute inset-0"></div>
+        <div class="relative z-10 max-w-4xl max-h-[90vh] flex flex-col items-center">
+            <button id="lightbox-close" class="absolute -top-12 right-0 text-white hover:text-[#BAAA98] p-2 transition" aria-label="Zamknij">
+                <i data-lucide="x" class="w-8 h-8"></i>
+            </button>
+            <img id="lightbox-image" src="" alt="Powiększenie tatuażu" class="max-h-[75vh] w-auto rounded-2xl object-contain shadow-2xl border border-neutral-700">
+            <div class="mt-4 text-center">
+                <span id="lightbox-tag" class="text-xs font-bold uppercase tracking-widest text-[#BAAA98]"></span>
+                <h4 id="lightbox-title" class="font-logo text-lg sm:text-xl font-bold text-white mt-1"></h4>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 3: Szybki Kontakt / Telefon -->
+    <div id="contact-info-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+        <div class="contact-backdrop absolute inset-0"></div>
+        <div class="relative z-10 bg-white rounded-3xl p-8 max-w-sm w-full border border-[#E8E2DA] shadow-2xl text-center">
+            <button id="contact-modal-close" class="absolute top-4 right-4 text-neutral-400 hover:text-black p-2 transition">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <div class="w-14 h-14 mx-auto rounded-2xl bg-[#F5EFE9] flex items-center justify-center text-[#6E5E4E] mb-4">
+                <i data-lucide="phone-call" class="w-7 h-7"></i>
+            </div>
+            <h3 class="font-logo text-xl font-bold text-[#0F0F12]">Kontakt z CEGUA ink</h3>
+            <p class="text-xs text-neutral-500 mt-1 mb-6">Zadzwoń lub napisz bezpośrednio do studia:</p>
+
+            <a href="tel:881400555" class="btn-primary-dark w-full py-3.5 rounded-xl font-bold text-base flex items-center justify-center gap-2 mb-3">
+                <i data-lucide="phone" class="w-4 h-4 text-[#BAAA98]"></i>
+                <span>Zadzwoń: 881 400 555</span>
+            </a>
+
+            <a href="https://www.instagram.com/ceguaink" target="_blank" rel="noopener noreferrer" 
+               class="w-full py-3 rounded-xl border border-neutral-300 font-bold text-sm text-neutral-800 flex items-center justify-center gap-2 hover:bg-neutral-50 transition">
+                <i data-lucide="instagram" class="w-4 h-4 text-pink-600"></i>
+                <span>Instagram: @ceguaink</span>
+            </a>
+
+            <p class="text-[11px] text-neutral-400 mt-5">Klikowska 186, 33-100 Tarnów</p>
+        </div>
+    </div>
+
+    <!-- Modal 4: Polityka Prywatności -->
+    <div id="privacy-modal" class="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4 hidden">
+        <div class="absolute inset-0" onclick="closePrivacyModal()"></div>
+        <div class="relative z-10 bg-white border border-[#E8E2DA] p-8 sm:p-12 rounded-3xl max-w-xl w-full max-h-[85vh] overflow-y-auto shadow-2xl">
+            <h3 class="font-logo text-2xl sm:text-3xl text-[#0F0F12] font-black mb-5">Polityka Prywatności</h3>
+            <div class="text-sm sm:text-base text-neutral-600 leading-relaxed space-y-4 font-normal">
+                <p><strong>1. Administrator Danych:</strong> Administratorem danych osobowych jest CEGUA ink z siedzibą przy ul. Klikowska 186, 33-100 Tarnów.</p>
+                <p><strong>2. Cel przetwarzania:</strong> Dane podane w formularzu (imię, telefon, e-mail, preferencje) przetwarzane są wyłącznie w celu kontaktu oraz organizacji terminu sesji tatuażu.</p>
+                <p><strong>3. Prawa użytkownika:</strong> Każda osoba ma prawo wglądu do swoich danych, ich poprawiania lub żądania ich usunięcia.</p>
+            </div>
+            <div class="mt-8 text-right">
+                <button type="button" onclick="closePrivacyModal()" class="bg-[#0F0F12] text-white font-bold px-7 py-3 rounded-xl text-sm uppercase tracking-wider hover:bg-neutral-800 transition">Zamknij</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Alert/Confirm Modal -->
+    <div id="custom-alert-modal" class="fixed inset-0 z-[200] hidden items-center justify-center p-4 bg-black/60 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl w-full max-w-sm p-6 shadow-2xl transform scale-95 transition-transform duration-300 alert-box">
+            <div class="flex flex-col items-center text-center">
+                <div id="custom-alert-icon" class="w-16 h-16 rounded-full bg-[#FAF8F5] border border-[#E8E2DA] flex items-center justify-center mb-4 text-[#BAAA98]">
+                    <i data-lucide="bell" class="w-8 h-8 alert-icon-lucide"></i>
+                </div>
+                <h4 id="custom-alert-title" class="text-xl font-bold text-[#0F0F12] mb-2 font-logo">Komunikat</h4>
+                <p id="custom-alert-message" class="text-sm text-neutral-600 leading-relaxed mb-6 font-medium">Wiadomość z systemu...</p>
+                
+                <div id="custom-alert-buttons" class="flex flex-col sm:flex-row gap-3 w-full justify-center">
+                    <!-- Przyciski generowane z JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skrypt Inicjalizacyjny Lucide Icons & Główny JS -->
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
