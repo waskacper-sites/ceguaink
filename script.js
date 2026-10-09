@@ -134,12 +134,12 @@ window.alert = function(msg) {
 
 /**
  * ==========================================================================
- * CEGUA INK TATTOO STUDIO - GĹĂ“WNY SKRYPT INTERAKTYWNY
- * Styl: Jasny, minimalistyczny luksus, subtelna mgĹ‚a w tle
- * TarnĂłw, ul. Klikowska 186 | Tel: 881 400 555
- * Oficjalny Cennik: 1-4cm od 300zĹ‚, 5-8cm od 400zĹ‚, 9-12cm od 600zĹ‚,
- * 13-15cm od 900zĹ‚, 16-18cm od 1000zĹ‚, Sesja caĹ‚odzienna od 1400zĹ‚.
- * Konsultacja: DARMOWA | Zadatek: 100-200zĹ‚
+ * CEGUA INK TATTOO STUDIO - GŁÓWNY SKRYPT INTERAKTYWNY
+ * Styl: Jasny, minimalistyczny luksus, subtelna mgła w tle
+ * Tarnów, ul. Klikowska 186 | Tel: 881 400 555
+ * Oficjalny Cennik: 1-4cm od 300zł, 5-8cm od 400zł, 9-12cm od 600zł,
+ * 13-15cm od 900zł, 16-18cm od 1000zł, Sesja całodzienna od 1400zł.
+ * Konsultacja: DARMOWA | Zadatek: 100-200zł
  * ==========================================================================
  */
 
@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ==========================================================================
-   1. SUBTELNA ANIMACJA MGĹY / DYMU W TLE (CANVAS)
+   1. SUBTELNA ANIMACJA MGŁY / DYMU W TLE (CANVAS)
    ========================================================================== */
 function initSmokeMistCanvas() {
     const canvas = document.getElementById('smoke-canvas');
@@ -237,7 +237,7 @@ function initSmokeMistCanvas() {
 }
 
 /* ==========================================================================
-   2. PĹYNNE WYĹANIANIE ELEMENTĂ“W PODCZAS SCROLLOWANIA (SCROLL REVEAL)
+   2. PŁYNNE WYŁANIANIE ELEMENTÓW PODCZAS SCROLLOWANIA (SCROLL REVEAL)
    ========================================================================== */
 function initScrollReveal() {
     const targets = document.querySelectorAll('.reveal-on-scroll, .reveal-scale');
@@ -258,7 +258,7 @@ function initScrollReveal() {
 }
 
 /* ==========================================================================
-   3. NAWIGACJA MOBILNA I PĹYNNE PRZEWIJANIE
+   3. NAWIGACJA MOBILNA I PŁYNNE PRZEWIJANIE
    ========================================================================== */
 function initNavigation() {
     const mobileBtn = document.getElementById('mobile-menu-btn');
@@ -346,30 +346,30 @@ function ensureInitialBookings() {
                 createdAt: new Date(Date.now() - 3600000 * 4).toISOString(),
                 size: '5-8 cm',
                 price: 'od 400 PLN',
-                placement: 'WewnÄ™trzna strona przedramienia',
-                description: 'Delikatna linia, motyw botaniczny z maĹ‚ym napisem',
+                placement: 'Wewnętrzna strona przedramienia',
+                description: 'Delikatna linia, motyw botaniczny z małym napisem',
                 date: '2026-10-15', // Czwartek (godziny pracy 10:00 - 17:00)
                 time: '11:30',
                 clientName: 'Patrycja Kowalska',
                 clientPhone: '+48 600 123 456',
                 clientEmail: 'patrycja@przyklad.pl',
-                clientNotes: 'Konsultacja telefoniczna przeprowadzona, zadatek opĹ‚acony.',
+                clientNotes: 'Konsultacja telefoniczna przeprowadzona, zadatek opłacony.',
                 photos: [],
-                status: 'OczekujÄ…ca'
+                status: 'Oczekująca'
             },
             {
                 id: 'CEG-DEMO2',
                 createdAt: new Date(Date.now() - 3600000 * 28).toISOString(),
-                size: 'Sesja caĹ‚odzienna',
+                size: 'Sesja całodzienna',
                 price: 'od 1400 PLN',
-                placement: 'RamiÄ™ / bark',
-                description: 'Autorski projekt geometryczny, caĹ‚y dzieĹ„ zarezerwowany',
+                placement: 'Ramię / bark',
+                description: 'Autorski projekt geometryczny, cały dzień zarezerwowany',
                 date: '2026-10-17', // Sobota (godziny pracy 10:00 - 15:00)
                 time: '11:00',
                 clientName: 'Tomasz Nowak',
                 clientPhone: '+48 501 987 654',
                 clientEmail: 'tomasz.n@poczta.pl',
-                clientNotes: 'Zadatek 200 PLN zaksiÄ™gowany. CaĹ‚odzienna sesja.',
+                clientNotes: 'Zadatek 200 PLN zaksięgowany. Całodzienna sesja.',
                 photos: [],
                 status: 'Zaakceptowana'
             }
@@ -413,7 +413,7 @@ function updateStepUI() {
                 stepIndicator.innerHTML = i;
             } else if (i < bookingState.step) {
                 stepIndicator.className = 'w-9 h-9 rounded-full bg-[#baaa98] text-white flex items-center justify-center font-bold text-sm transition-all';
-                stepIndicator.innerHTML = 'âś“';
+                stepIndicator.innerHTML = '✔';
             } else {
                 stepIndicator.className = 'w-9 h-9 rounded-full bg-neutral-100 text-neutral-400 border border-neutral-200 flex items-center justify-center font-bold text-sm transition-all';
                 stepIndicator.innerHTML = i;
@@ -441,7 +441,7 @@ function goToStep(stepNumber) {
     updateStepUI();
 }
 
-// Funkcja wybierajÄ…ca rozmiar z sekcji Cennika i przewijajÄ…ca do formularza
+// Funkcja wybierająca rozmiar z sekcji Cennika i przewijająca do formularza
 function setupCennikQuickBookings() {
     document.querySelectorAll('.cennik-select-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -453,7 +453,7 @@ function setupCennikQuickBookings() {
                 bookingState.size = targetSize;
                 bookingState.price = targetPrice || '';
 
-                // Zaznacz kartÄ™ rozmiaru w formularzu
+                // Zaznacz kartę rozmiaru w formularzu
                 document.querySelectorAll('.booking-size-btn').forEach(b => {
                     const check = b.querySelector('.card-check');
                     const subPrice = b.querySelector('.size-btn-price');
@@ -580,7 +580,7 @@ function setupStep2Placement() {
             if (descInput) bookingState.description = descInput.value.trim();
 
             if (!bookingState.placement) {
-                alert('Prosimy podaÄ‡ preferowane miejsce na ciele (np. przedramiÄ™, ĹĽebra, nadgarstek).');
+                alert('Prosimy podać preferowane miejsce na ciele (np. przedramię, żebra, nadgarstek).');
                 placementInput.focus();
                 return;
             }
@@ -594,7 +594,7 @@ function handlePhotoFiles(fileList) {
     const remainingSlots = 3 - bookingState.photos.length;
 
     if (remainingSlots <= 0) {
-        alert('OsiÄ…gniÄ™to limit 3 zaĹ‚Ä…czonych zdjÄ™Ä‡.');
+        alert('Osiągnięto limit 3 załączonych zdjęć.');
         return;
     }
 
@@ -602,7 +602,7 @@ function handlePhotoFiles(fileList) {
 
     filesToAdd.forEach(file => {
         if (!file.type.startsWith('image/')) {
-            alert(`Plik "${file.name}" nie jest prawidĹ‚owym obrazem (dozwolone sÄ… pliki graficzne JPG, PNG, WEBP).`);
+            alert(`Plik "${file.name}" nie jest prawidłowym obrazem (dozwolone są pliki graficzne JPG, PNG, WEBP).`);
             return;
         }
 
@@ -673,8 +673,8 @@ function renderUploadedPhotos() {
                 <p class="text-xs font-bold text-neutral-800 truncate">${photo.name}</p>
                 <p class="text-[11px] text-[#8C827A]">${photo.size}</p>
             </div>
-            <button type="button" class="absolute top-2 right-2 w-6 h-6 rounded-full bg-neutral-100 hover:bg-rose-100 text-neutral-400 hover:text-rose-600 flex items-center justify-center transition" title="UsuĹ„ plik">
-                âś•
+            <button type="button" class="absolute top-2 right-2 w-6 h-6 rounded-full bg-neutral-100 hover:bg-rose-100 text-neutral-400 hover:text-rose-600 flex items-center justify-center transition" title="Usuń plik">
+                ✕
             </button>
         `;
 
@@ -733,21 +733,21 @@ function setupStep3Calendar() {
     if (nextBtnStep) {
         nextBtnStep.addEventListener('click', () => {
             if (!bookingState.selectedDate) {
-                alert('Prosimy wybraÄ‡ dzieĹ„ z kalendarza.');
+                alert('Prosimy wybrać dzień z kalendarza.');
                 return;
             }
             const avail = getDayAvailability(bookingState.selectedDate);
             if (avail === 'full') {
-                alert('Wszystkie godziny w wybranym dniu sÄ… juĹĽ zajÄ™te. Prosimy wybraÄ‡ termin oznaczony na zielono lub ĹĽĂłĹ‚to.');
+                alert('Wszystkie godziny w wybranym dniu są już zajęte. Prosimy wybrać termin oznaczony na zielono lub żółto.');
                 return;
             }
             if (!bookingState.selectedTime) {
-                alert('Prosimy wybraÄ‡ dostÄ™pnÄ… godzinÄ™ wizyty.');
+                alert('Prosimy wybrać dostępną godzinę wizyty.');
                 return;
             }
             const booked = getBookedSlotsForDate(bookingState.selectedDate);
             if (booked.includes(bookingState.selectedTime)) {
-                alert('Wybrana godzina zostaĹ‚a juĹĽ zajÄ™ta. Prosimy wybraÄ‡ innÄ… wolnÄ… godzinÄ™.');
+                alert('Wybrana godzina została już zajęta. Prosimy wybrać inną wolną godzinę.');
                 return;
             }
             updateSummaryView();
@@ -757,8 +757,8 @@ function setupStep3Calendar() {
 }
 
 const MONTH_NAMES_PL = [
-    'StyczeĹ„', 'Luty', 'Marzec', 'KwiecieĹ„', 'Maj', 'Czerwiec',
-    'Lipiec', 'SierpieĹ„', 'WrzesieĹ„', 'PaĹşdziernik', 'Listopad', 'GrudzieĹ„'
+    'Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec',
+    'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'
 ];
 
 function getTimeSlotsForDate(dateStr) {
@@ -766,7 +766,7 @@ function getTimeSlotsForDate(dateStr) {
     const parts = dateStr.split('-');
     const d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
     const dayOfWeek = d.getDay();
-    if (dayOfWeek === 0) return []; // Niedziela: zamkniÄ™te
+    if (dayOfWeek === 0) return []; // Niedziela: zamknięte
     if (dayOfWeek === 6) {
         // Sobota: 10:00 - 15:00
         return ['10:00', '11:30', '13:00', '14:00'];
@@ -782,7 +782,7 @@ function getBookedSlotsForDate(dateStr) {
 
     bookings.forEach(b => {
         if (b.date === dateStr && b.status !== 'Odrzucona') {
-            if (b.size && b.size.toLowerCase().includes('caĹ‚odzienna')) {
+            if (b.size && b.size.toLowerCase().includes('całodzienna')) {
                 allSlots.forEach(s => {
                     if (!booked.includes(s)) booked.push(s);
                 });
@@ -799,9 +799,9 @@ function getDayAvailability(dateStr) {
     const allSlots = getTimeSlotsForDate(dateStr);
     if (!allSlots || allSlots.length === 0) return 'closed';
     const bookedSlots = getBookedSlotsForDate(dateStr);
-    if (bookedSlots.length >= allSlots.length) return 'full';    // Wszystkie zajÄ™te -> Czerwony przekreĹ›lony
-    if (bookedSlots.length > 0) return 'partial';              // Ostatnie godziny -> Ĺ»ĂłĹ‚ty
-    return 'free';                                             // Wolny dzieĹ„ -> Zielony
+    if (bookedSlots.length >= allSlots.length) return 'full';    // Wszystkie zajęte -> Czerwony przekreślony
+    if (bookedSlots.length > 0) return 'partial';              // Ostatnie godziny -> Żółty
+    return 'free';                                             // Wolny dzień -> Zielony
 }
 
 function renderCalendar() {
@@ -840,7 +840,7 @@ function renderCalendar() {
             btn.disabled = true;
             btn.className += 'text-neutral-300 border-transparent bg-transparent cursor-not-allowed';
             if (isSunday) {
-                btn.title = 'Niedziela: ZamkniÄ™te';
+                btn.title = 'Niedziela: Zamknięte';
             }
         } else {
             const dateStr = `${currentCalYear}-${String(currentCalMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
@@ -850,18 +850,18 @@ function renderCalendar() {
             if (isSelected) {
                 btn.className += 'selected selected-day border-[#0f0f12] bg-[#0f0f12] text-white shadow-md ';
             } else if (avail === 'full') {
-                // ZajÄ™ty dzieĹ„: przekreĹ›lony na czerwono, zablokowany przed klikniÄ™ciem!
+                // Zajęty dzień: przekreślony na czerwono, zablokowany przed kliknięciem!
                 btn.disabled = true;
                 btn.className += 'cal-day-full cursor-not-allowed ';
-                btn.title = 'Wszystkie godziny w tym dniu sÄ… juĹĽ zajÄ™te';
+                btn.title = 'Wszystkie godziny w tym dniu są już zajęte';
             } else if (avail === 'partial') {
-                // Ostatnie godziny: zaznaczony na ĹĽĂłĹ‚to!
+                // Ostatnie godziny: zaznaczony na żółto!
                 btn.className += 'cal-day-partial ';
-                btn.title = 'Ostatnie wolne godziny na ten dzieĹ„';
+                btn.title = 'Ostatnie wolne godziny na ten dzień';
             } else {
-                // Wolny dzieĹ„: zielony
+                // Wolny dzień: zielony
                 btn.className += 'cal-day-free ';
-                btn.title = 'DostÄ™pne wolne terminy';
+                btn.title = 'Dostępne wolne terminy';
             }
 
             if (cellDate.getTime() === today.getTime() && !isSelected) {
@@ -897,7 +897,7 @@ function renderTimeSlots(dayOfWeek) {
     slotsGrid.innerHTML = '';
 
     if (dayOfWeek === 0) {
-        slotsGrid.innerHTML = '<div class="col-span-full p-4 rounded-xl bg-neutral-100 text-neutral-600 text-center text-xs font-semibold">Niedziela: Studio CEGUA ink jest zamkniÄ™te. Prosimy wybraÄ‡ termin w dniach roboczych (PoniedziaĹ‚ek â€“ Sobota).</div>';
+        slotsGrid.innerHTML = '<div class="col-span-full p-4 rounded-xl bg-neutral-100 text-neutral-600 text-center text-xs font-semibold">Niedziela: Studio CEGUA ink jest zamknięte. Prosimy wybrać termin w dniach roboczych (Poniedziałek – Sobota).</div>';
         return;
     }
 
@@ -908,7 +908,7 @@ function renderTimeSlots(dayOfWeek) {
     if (isAllBooked) {
         slotsGrid.innerHTML = `
             <div class="col-span-full p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-center text-xs font-bold">
-                Wszystkie godziny na dzieĹ„ <strong>${bookingState.selectedDate}</strong> sÄ… juĹĽ zajÄ™te. Prosimy wybraÄ‡ inny termin oznaczony na zielono lub ĹĽĂłĹ‚to.
+                Wszystkie godziny na dzień <strong>${bookingState.selectedDate}</strong> są już zajęte. Prosimy wybrać inny termin oznaczony na zielono lub żółto.
             </div>
         `;
         return;
@@ -921,9 +921,9 @@ function renderTimeSlots(dayOfWeek) {
         alertBox.innerHTML = `
             <span class="flex items-center gap-2">
                 <span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
-                <span>Ostatnie wolne godziny na ten dzieĹ„ (wolnych: <strong>${remainingCount}</strong>)!</span>
+                <span>Ostatnie wolne godziny na ten dzień (wolnych: <strong>${remainingCount}</strong>)!</span>
             </span>
-            <span class="text-[11px] text-amber-700 hidden sm:inline">Wybierz godzinÄ™ poniĹĽej:</span>
+            <span class="text-[11px] text-amber-700 hidden sm:inline">Wybierz godzinę poniżej:</span>
         `;
         slotsGrid.appendChild(alertBox);
     }
@@ -938,7 +938,7 @@ function renderTimeSlots(dayOfWeek) {
         if (isBooked) {
             btn.disabled = true;
             btn.className = 'time-slot-btn py-3 px-3 rounded-xl text-xs font-bold border border-rose-200 bg-rose-50 text-rose-400 cursor-not-allowed line-through flex items-center justify-between opacity-60';
-            btn.innerHTML = `<span>${time}</span><span class="text-[9px] uppercase font-bold no-underline text-rose-600 bg-rose-100 px-1.5 py-0.5 rounded">ZajÄ™ty</span>`;
+            btn.innerHTML = `<span>${time}</span><span class="text-[9px] uppercase font-bold no-underline text-rose-600 bg-rose-100 px-1.5 py-0.5 rounded">Zajęty</span>`;
         } else {
             let cls = 'time-slot-btn py-3 px-3 rounded-xl text-xs font-bold border transition-all flex items-center justify-between ';
             if (isSelected) {
@@ -999,13 +999,13 @@ function setupStep4FormSubmission() {
             const notes = notesInput ? notesInput.value.trim() : '';
 
             if (!name) {
-                alert('Prosimy podaÄ‡ imiÄ™ i nazwisko.');
+                alert('Prosimy podać imię i nazwisko.');
                 nameInput.focus();
                 return;
             }
 
             if (!phone || phone.length < 7) {
-                alert('Prosimy podaÄ‡ poprawny numer telefonu do kontaktu.');
+                alert('Prosimy podać poprawny numer telefonu do kontaktu.');
                 phoneInput.focus();
                 return;
             }
@@ -1041,7 +1041,7 @@ function saveBookingToLocalStorage(data) {
         clientPhone: data.clientPhone,
         clientEmail: data.clientEmail,
         clientNotes: data.clientNotes,
-        status: 'OczekujÄ…ca'
+        status: 'Oczekująca'
     };
 
     bookings.unshift(newEntry);
@@ -1053,7 +1053,7 @@ function saveBookingToLocalStorage(data) {
 function showBookingConfirmationModal(data) {
     const modal = document.getElementById('confirmation-modal');
     if (!modal) {
-        alert(`DziÄ™kujemy ${data.clientName}! Twoja proĹ›ba o termin (${data.selectedDate} o ${data.selectedTime}) zostaĹ‚a zapisana.`);
+        alert(`Dziękujemy ${data.clientName}! Twoja prośba o termin (${data.selectedDate} o ${data.selectedTime}) została zapisana.`);
         return;
     }
 
@@ -1068,10 +1068,10 @@ function showBookingConfirmationModal(data) {
     if (confDate) confDate.innerText = `${data.selectedDate} o godz. ${data.selectedTime}`;
     if (confSize) confSize.innerText = data.size;
     if (confStyle) confStyle.innerText = data.size;
-    if (confPrice) confPrice.innerText = `${data.price} (Zadatek: 100-200 zĹ‚)`;
+    if (confPrice) confPrice.innerText = `${data.price} (Zadatek: 100-200 zł)`;
     if (confPhotos) {
         const count = data.photos ? data.photos.length : 0;
-        confPhotos.innerText = count > 0 ? `${count} ${count === 1 ? 'zaĹ‚Ä…czone zdjÄ™cie' : 'zaĹ‚Ä…czonych zdjÄ™Ä‡'}` : 'Brak zaĹ‚Ä…cznikĂłw';
+        confPhotos.innerText = count > 0 ? `${count} ${count === 1 ? 'załączone zdjęcie' : 'załączonych zdjęć'}` : 'Brak załączników';
     }
 
     modal.classList.remove('hidden');
@@ -1174,7 +1174,7 @@ function initAdminSystem() {
         } else {
             if (errorMsg) {
                 errorMsg.classList.remove('hidden');
-                errorMsg.innerText = 'NieprawidĹ‚owe hasĹ‚o dostÄ™pu (sprĂłbuj: admin123)';
+                errorMsg.innerText = 'Nieprawidłowe hasło dostępu (spróbuj: admin123)';
             }
         }
     }
@@ -1212,13 +1212,13 @@ function renderAdminDashboardRows(filter = 'all') {
 
     if (totalCountBadge) totalCountBadge.innerText = bookings.length;
     if (pendingCountBadge) {
-        const pendingNum = bookings.filter(b => b.status === 'OczekujÄ…ca').length;
-        pendingNum > 0 ? pendingCountBadge.innerText = `${pendingNum} oczekujÄ…cych` : pendingCountBadge.innerText = 'Brak oczekujÄ…cych';
+        const pendingNum = bookings.filter(b => b.status === 'Oczekująca').length;
+        pendingNum > 0 ? pendingCountBadge.innerText = `${pendingNum} oczekujących` : pendingCountBadge.innerText = 'Brak oczekujących';
     }
 
     let filtered = bookings;
     if (filter === 'pending') {
-        filtered = bookings.filter(b => b.status === 'OczekujÄ…ca');
+        filtered = bookings.filter(b => b.status === 'Oczekująca');
     } else if (filter === 'accepted') {
         filtered = bookings.filter(b => b.status === 'Zaakceptowana');
     }
@@ -1262,7 +1262,7 @@ function renderAdminDashboardRows(filter = 'all') {
                 ${item.photos && item.photos.length > 0 ? `
                     <div class="mt-2 flex items-center gap-1.5 flex-wrap">
                         <span class="text-[10px] font-bold text-neutral-600 bg-neutral-100 border border-neutral-200 px-1.5 py-0.5 rounded">
-                            đź“· ${item.photos.length} ${item.photos.length === 1 ? 'zdjÄ™cie' : 'zdjÄ™cia'}
+                            📷 ${item.photos.length} ${item.photos.length === 1 ? 'zdjęcie' : 'zdjęcia'}
                         </span>
                         ${item.photos.map(p => `
                             <a href="${p.dataUrl}" target="_blank" title="${p.name} (${p.size})" class="inline-block w-8 h-8 rounded-lg border border-neutral-200 overflow-hidden hover:opacity-80 transition shadow-xs">
@@ -1286,10 +1286,10 @@ function renderAdminDashboardRows(filter = 'all') {
                     <button class="status-btn-accept p-1.5 rounded-lg text-emerald-600 hover:bg-emerald-50 transition" title="Zaakceptuj">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                     </button>
-                    <button class="status-btn-reject p-1.5 rounded-lg text-rose-500 hover:bg-rose-50 transition" title="OdrzuÄ‡">
+                    <button class="status-btn-reject p-1.5 rounded-lg text-rose-500 hover:bg-rose-50 transition" title="Odrzuć">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
-                    <button class="status-btn-delete p-1.5 rounded-lg text-neutral-400 hover:text-neutral-700 hover:bg-neutral-100 transition" title="UsuĹ„ z bazy">
+                    <button class="status-btn-delete p-1.5 rounded-lg text-neutral-400 hover:text-neutral-700 hover:bg-neutral-100 transition" title="Usuń z bazy">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                     </button>
                 </div>
@@ -1316,7 +1316,7 @@ function updateBookingStatus(id, newStatus) {
 }
 
 function deleteBooking(id) {
-    customConfirm('Czy na pewno chcesz usunÄ…Ä‡ tÄ™ rezerwacjÄ™ z bazy?', 'Usuwanie rezerwacji', () => {
+    customConfirm('Czy na pewno chcesz usunąć tę rezerwację z bazy?', 'Usuwanie rezerwacji', () => {
         let bookings = JSON.parse(localStorage.getItem('cegua_ink_bookings') || '[]');
         bookings = bookings.filter(b => b.id !== id);
         localStorage.setItem('cegua_ink_bookings', JSON.stringify(bookings));
@@ -1374,7 +1374,7 @@ function initPortfolioLightbox() {
     document.querySelectorAll('.portfolio-card-wrap').forEach(card => {
         card.addEventListener('click', () => {
             const img = card.querySelector('img');
-            const title = card.dataset.title || 'TatuaĹĽ CEGUA ink';
+            const title = card.dataset.title || 'Tatuaż CEGUA ink';
             const tag = card.dataset.tag || 'Fineline';
 
             if (img) {
@@ -1458,7 +1458,7 @@ function initContactModal() {
 }
 
 /* ==========================================================================
-   9. UNIWERSALNY SYSTEM MODALI I KONTAKT W SPRAWIE STRONY (NETJES / WĹAĹšCICIEL)
+   9. UNIWERSALNY SYSTEM MODALI I KONTAKT W SPRAWIE STRONY (NETJES / WŁAŚCICIEL)
    ========================================================================== */
 function showCustomModal({ title, message, type = 'info', confirmText = 'OK', cancelText = null, onConfirm = null, onCancel = null }) {
     const backdrop = document.getElementById('custom-modal-backdrop');
@@ -1553,7 +1553,7 @@ function openContactOwnerModal() {
     const content = `
         <div class="space-y-4">
             <p class="text-sm sm:text-base text-neutral-600 leading-relaxed font-normal">
-                Chcesz wdroĹĽyÄ‡ nowoczesnÄ… stronÄ™ internetowÄ… z systemem rezerwacji online dla swojego salonu lub firmy? Skontaktuj siÄ™ ze mnÄ… bezpoĹ›rednio:
+                Chcesz wdrożyć nowoczesną stronę internetową z systemem rezerwacji online dla swojego salonu lub firmy? Skontaktuj się ze mną bezpośrednio:
             </p>
             <div class="p-4 rounded-xl bg-neutral-50 border border-neutral-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-left">
                 <div class="flex items-center gap-3">
@@ -1575,13 +1575,13 @@ function openContactOwnerModal() {
                 </div>
             </div>
             <p class="text-xs text-neutral-500 font-normal">
-                Odpowiadam na wiadomoĹ›ci najczÄ™Ĺ›ciej w ciÄ…gu kilkunastu godzin. ChÄ™tnie omĂłwiÄ™ szczegĂłĹ‚y i przygotujÄ™ indywidualnÄ… wycenÄ™.
+                Odpowiadam na wiadomości najczęściej w ciągu kilkunastu godzin. Chętnie omówię szczegóły i przygotuję indywidualną wycenę.
             </p>
         </div>
     `;
 
     showCustomModal({
-        title: 'Skontaktuj SiÄ™ w Sprawie Strony',
+        title: 'Skontaktuj Się w Sprawie Strony',
         message: content,
         type: 'info',
         confirmText: 'Zamknij'
